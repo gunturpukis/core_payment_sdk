@@ -13,7 +13,8 @@
       android:fillColor="#6b57ff"/>
   <path
       android:pathData="m32,43 l-9.5,-5.5v-11L7.75,18V46L32,60Z">
-    <aapt:attr name="android:fillColor">
+<!--    <aapt:attr name="android:fillColor">-->
+    <path android:Color="#5383EC">
       <gradient
           android:centerX="23.131"
           android:centerY="18.441"
@@ -22,7 +23,7 @@
         <item android:offset="0" android:color="#FF5383EC"/>
         <item android:offset="0.867" android:color="#FF7F52FF"/>
       </gradient>
-    </aapt:attr>
+    </path>
   </path>
   <path
       android:pathData="M22.5,26.5 L32,21 41.5,26.5 56.25,18 32,4 7.75,18Z">

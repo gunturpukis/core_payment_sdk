@@ -35,4 +35,4 @@ dependencyResolutionManagement {
     }
 }
 
-include(":payment-core",":composeApp")
+include(":payment-core",":sample_app_demo")

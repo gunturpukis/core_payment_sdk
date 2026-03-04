@@ -2,28 +2,33 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("org.jetbrains.kotlin.multiplatform")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("com.android.kotlin.multiplatform.library")
+//    id("org.jetbrains.kotlin.multiplatform")
+//    id("org.jetbrains.kotlin.plugin.compose")
+//    id("com.android.kotlin.multiplatform.library")
 //    id("com.android.library")
+//    id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.multiplatform")
+    id("com.android.application")
     id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 kotlin {
-    androidLibrary {
-        namespace = "com.example.corepaymentsdk"
-        compileSdk = 34   // atau 35 / 36 sesuai SDK kamu
-
-        minSdk = 24       // sesuaikan kebutuhan
-    }
-
-    targets.named("android") {
-        compilations.all {
-            compilerOptions.configure {
-//                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
-            }
-        }
-    }
+//    androidLibrary {
+//        namespace = "com.example.corepaymentsdk"
+//        compileSdk = 34   // atau 35 / 36 sesuai SDK kamu
+//
+//        minSdk = 24       // sesuaikan kebutuhan
+//    }
+//
+//    targets.named("android") {
+//        compilations.all {
+////            compilerOptions.configure {
+//////                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+////            }
+//        }
+//    }
+    androidTarget()
 
 
     listOf(
@@ -31,7 +36,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "composeApp"
+            baseName = "sample_app_demo"
             isStatic = true
         }
     }
@@ -66,43 +71,43 @@ kotlin {
     }
 }
 
-//android {
-//    namespace = "com.example.corepaymentsdk"
-//    compileSdk = libs.versions.android.compileSdk.get().toInt()
-//
-//    defaultConfig {
-////        applicationId = "com.example.corepaymentsdk"
-//        minSdk = libs.versions.android.minSdk.get().toInt()
-//        targetSdk = libs.versions.android.targetSdk.get().toInt()
-//        versionCode = 1
-//        versionName = "1.0"
-//    }
-////    packaging {
-////        resources {
-////            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-////        }
-////    }
-//    buildTypes {
-//        release {
-//            isMinifyEnabled = false
-//        }
-//    }
-//    compileOptions {
-//        sourceCompatibility = JavaVersion.VERSION_11
-//        targetCompatibility = JavaVersion.VERSION_11
-//    }
-//    buildFeatures {
-//        viewBinding = true
-//    }
-//}
+android {
+    namespace = "com.example.corepaymentsdk"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
-//dependencies {
-////    debugImplementation(libs.compose.uiTooling)
-//
-////    implementation(project(":payment-core"))
-////
-////    implementation("androidx.core:core-ktx:1.12.0")
-////    implementation("androidx.appcompat:appcompat:1.6.1")
-////    implementation("com.google.android.material:material:1.11.0")
-//}
+    defaultConfig {
+        applicationId = "com.example.corepaymentsdk"
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        versionCode = 1
+        versionName = "1.0"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+    debugImplementation(libs.compose.uiTooling)
+
+    implementation(project(":payment-core"))
+
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+}
 

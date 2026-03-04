@@ -54,7 +54,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
                 implementation("io.ktor:ktor-client-auth:2.3.7")
-
+                implementation("com.soywiz.korlibs.krypto:krypto:4.0.10")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
             }
@@ -69,7 +69,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.sdk.payment.core"
+    namespace = "com.sdk.payment"
     compileSdk = 34
 
     defaultConfig {

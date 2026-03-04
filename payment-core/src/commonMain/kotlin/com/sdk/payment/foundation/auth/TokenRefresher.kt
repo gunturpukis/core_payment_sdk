@@ -9,7 +9,7 @@ class TokenRefresher(
 ) {
 
     suspend fun refreshIfNeeded() {
-        val tokens = tokenProvider.getAccessToken()
+        val tokens = tokenProvider.getTokenPair()
 
         if (tokens.isExpired()) {
             tokenProvider.refreshToken(

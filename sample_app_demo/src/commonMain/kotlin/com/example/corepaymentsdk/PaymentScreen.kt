@@ -17,12 +17,6 @@ fun PaymentScreen() {
 
     var resultText by remember { mutableStateOf("No Transaction") }
 
-//    val gateway = remember {
-//        PaymentGateway.create(
-//            baseUrl = "https://sandbox.api.com",
-//            client = HttpClient()
-//        )
-//    }
         val gateway: PaymentGateway = remember {
             PaymentGateway(
                 baseUrl = "https://sandbox.api.com",

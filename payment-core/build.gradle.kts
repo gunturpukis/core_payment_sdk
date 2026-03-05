@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("org.jetbrains.kotlin.native.cocoapods")
     id("com.android.library")
+//    id("org.jetbrains.kotlin.android")
 }
 
 group = "com.company.sdk"
@@ -57,12 +58,14 @@ kotlin {
                 implementation("com.soywiz.korlibs.krypto:krypto:4.0.10")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+
             }
         }
 
         val androidMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-okhttp:2.3.7")
+                implementation("com.google.android.material:material:1.11.0")
             }
         }
     }
@@ -76,6 +79,9 @@ android {
         minSdk = 21
     }
     android {
+        buildFeatures {
+            viewBinding = true
+        }
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_17
             targetCompatibility = JavaVersion.VERSION_17

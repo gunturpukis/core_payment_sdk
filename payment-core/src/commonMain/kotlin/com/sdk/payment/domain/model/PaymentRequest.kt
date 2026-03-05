@@ -4,6 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PaymentRequest(
-    val amount: Long,
-    val currency: String
+    val cardNumber: String,
+    val cardHolder: String,
+    val expiryDate: String,
+    val cvv: String,
 )

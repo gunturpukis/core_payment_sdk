@@ -2,33 +2,52 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
+//    id("org.jetbrains.kotlin.multiplatform")
+//    id("org.jetbrains.kotlin.plugin.compose")
+//    id("com.android.kotlin.multiplatform.library")
+//    id("com.android.library")
+//    id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.multiplatform")
+    id("com.android.application")
+    id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-    }
-    
+//    androidLibrary {
+//        namespace = "com.example.corepaymentsdk"
+//        compileSdk = 34   // atau 35 / 36 sesuai SDK kamu
+//
+//        minSdk = 24       // sesuaikan kebutuhan
+//    }
+//
+//    targets.named("android") {
+//        compilations.all {
+////            compilerOptions.configure {
+//////                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+////            }
+//        }
+//    }
+    androidTarget()
+
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "sample_app_demo"
             isStatic = true
         }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+//            implementation("io.ktor:ktor-client-okhttp")
+            implementation("io.ktor:ktor-client-core:2.3.7")
+//            implementation(project(":payment-core"))
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -39,9 +58,15 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+//            implementation("io.ktor:ktor-client-okhttp")
+            implementation("io.ktor:ktor-client-core:2.3.7")
+            implementation(project(":payment-core"))
         }
-        commonTest.dependencies {
+        iosMain.dependencies {
             implementation(libs.kotlin.test)
+//            implementation("io.ktor:ktor-client-darwin")
+            implementation("io.ktor:ktor-client-core:2.3.7")
+//            implementation(project(":payment-core"))
         }
     }
 }
@@ -63,7 +88,7 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
         }
     }
@@ -71,9 +96,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
     debugImplementation(libs.compose.uiTooling)
+
+    implementation(project(":payment-core"))
+
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
 }
 

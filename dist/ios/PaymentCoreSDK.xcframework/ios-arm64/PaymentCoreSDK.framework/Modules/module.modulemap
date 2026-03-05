@@ -1,0 +1,8 @@
+framework module "PaymentCoreSDK" {
+    umbrella header "PaymentCoreSDK.h"
+
+    export *
+    module * { export * }
+
+    use Foundation
+}

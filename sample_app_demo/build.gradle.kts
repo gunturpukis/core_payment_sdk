@@ -47,7 +47,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
 //            implementation("io.ktor:ktor-client-okhttp")
             implementation("io.ktor:ktor-client-core:2.3.7")
-//            implementation(project(":payment-core"))
+            implementation(project(":payment-core"))
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)

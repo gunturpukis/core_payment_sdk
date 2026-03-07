@@ -1,20 +1,25 @@
 package com.sdk.payment
 
+import com.sdk.payment.config.PaymentConfig
+import com.sdk.payment.core.network.HttpClientFactory
 import com.sdk.payment.data.remote.PaymentApi
-import com.sdk.payment.data.repository.PaymentRepositoryImpl
 import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.domain.model.PaymentResult
+import com.sdk.payment.data.remote.PaymentRepository
 import io.ktor.client.*
+import io.ktor.client.engine.HttpClientEngine
 
 class PaymentGateway(
-    client: HttpClient,
-    baseUrl: String
+    engine: HttpClientEngine,
+    private val config: PaymentConfig
 ) {
-    private val api = PaymentApi(client, baseUrl)
-    private val repository = PaymentRepositoryImpl(api)
-
-    suspend fun pay(
-        request: PaymentRequest
-    ): Result<PaymentResult> =
-        repository.pay(request)
+    private val client = HttpClientFactory.create(
+        engine = engine,
+        config = config
+    )
+    private val api = PaymentApi(client)
+    private val repository = PaymentRepository(api)
+    suspend fun charge(request: PaymentRequest): PaymentResult {
+        return repository.pay(request)
+    }
 }

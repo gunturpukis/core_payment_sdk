@@ -1,10 +1,11 @@
-package com.sdk.payment.core
+package com.sdk.payment.config
 
 data class PaymentConfig(
     val baseUrl: String,
-    val clientId: String,
+    val merchantId: String,
     val timeoutMillis: Long = 30_000,
-    val clientSecret: String,
+    val secretUnbound: String,
+    val hashKey: String,
     val refreshUrl: String,
     val apiVersion: String = "v3"
 ) {

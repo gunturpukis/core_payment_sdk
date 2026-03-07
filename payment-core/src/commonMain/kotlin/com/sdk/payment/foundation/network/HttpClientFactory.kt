@@ -1,81 +1,39 @@
 package com.sdk.payment.core.network
 
-import com.sdk.payment.core.PaymentConfig
-import com.sdk.payment.core.auth.TokenProvider
+import com.sdk.payment.config.PaymentConfig
+import com.sdk.payment.foundation.network.SignaturePlugin
 import io.ktor.client.*
 import io.ktor.client.engine.*
-import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.plugins.HttpSend
-import io.ktor.client.plugins.api.createClientPlugin
-import io.ktor.client.plugins.auth.*
-import io.ktor.client.plugins.auth.providers.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.header
-import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.*
+import io.ktor.util.encodeBase64
 import io.ktor.utils.io.core.toByteArray
-import korlibs.crypto.HMAC
-import korlibs.crypto.Hash
-import kotlin.io.encoding.Base64
+import kotlinx.serialization.json.Json
 
 object HttpClientFactory {
-
     fun create(
         engine: HttpClientEngine,
         config: PaymentConfig,
-        tokenProvider: TokenProvider
-    ): HttpClient =
-        HttpClient(engine) {
-
+    ): HttpClient {
+        return HttpClient(engine) {
             install(ContentNegotiation) {
-                json()
+                json(Json {
+                    ignoreUnknownKeys = true
+                    encodeDefaults = true
+                })
             }
-
-            // ✅ Bearer Auth
-            install(Auth) {
-                bearer {
-
-                    loadTokens {
-                        val token = tokenProvider.getTokenPair()
-                        BearerTokens(
-                            token.accessToken,
-                            token.refreshToken
-                        )
-                    }
-
-                    refreshTokens {
-                        tokenProvider.refreshToken(
-                            config.refreshUrl,
-                            config.clientId,
-                            config.clientSecret
-                        )
-
-                        val newToken = tokenProvider.getTokenPair()
-                        BearerTokens(
-                            newToken.accessToken,
-                            newToken.refreshToken
-                        )
-                    }
-                }
+            install(DefaultRequest) {
+                url(config.baseUrl)
+                header("x-version",config.apiVersion)
+                header("response-type", "url")
+                header("Content-Type", "application/json")
+                val authString = "${config.merchantId}:${config.secretUnbound}"
+                val encodedAuth = authString.toByteArray().encodeBase64()
+                header("Authorization", "Basic $encodedAuth")
             }
-
-            // ✅ Default Headers (x-version + signature)
-                val SignaturePlugin = createClientPlugin("SignaturePlugin") {
-
-                    onRequest { request, _ ->
-
-                        val payload = "${request.method.value}:${request.url.encodedPath}:"
-
-                        val hash = HMAC.hmacSHA256(
-                            key = config.clientSecret.encodeToByteArray(),
-                            data = payload.encodeToByteArray()
-                        )
-                        val bite: ByteArray = hash.bytes
-
-                        request.headers.append("x-req-signature", Base64.encode(bite))
-                    }
-                }
-            install(SignaturePlugin)
-
+            install(SignaturePlugin(config.hashKey))
         }
+    }
 }

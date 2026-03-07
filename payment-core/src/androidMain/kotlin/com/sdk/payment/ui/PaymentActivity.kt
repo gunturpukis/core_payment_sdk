@@ -7,12 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.sdk.payment.PaymentGateway
+import com.sdk.payment.config.PaymentConfig
 import com.sdk.payment.databinding.PaymentPageBinding
+import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.presentation.BasePaymentViewModel
 import com.sdk.payment.presentation.PaymentUiState
-import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import kotlinx.coroutines.launch
-
+import kotlinx.serialization.json.Json
 
 class PaymentActivity : AppCompatActivity() {
     private lateinit var binding: PaymentPageBinding
@@ -21,34 +23,47 @@ class PaymentActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = PaymentPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initGateway()
-        initViewModel()
-        setupInputBinding()
+        setupGateway()
+        setupViewModel()
+        setupInputs()
         observeState()
         setupCardFlip()
         setupPayButton()
     }
 
-    private fun initGateway() {
-        val client = HttpClient()
-        val baseUrl = "https://api.payment.com"
+    private fun setupGateway() {
+        val mId = intent.getStringExtra("merchantId") ?: ""
+        val sUnbound = intent.getStringExtra("secretUnbound") ?: ""
+        val hKey = intent.getStringExtra("hashKey") ?: ""
 
         gateway = PaymentGateway(
-            client = client,
-            baseUrl = baseUrl
+            engine = OkHttp.create(),
+            config = PaymentConfig(
+                baseUrl = "https://api-stage.mcpayment.id",
+                merchantId = mId,
+                timeoutMillis = 30_000,
+                secretUnbound = sUnbound,
+                hashKey = hKey,
+                refreshUrl = "",
+                apiVersion = "v3"
+            )
         )
     }
 
-    private fun initViewModel() {
-        viewModel = BasePaymentViewModel(gateway)
+    private fun setupViewModel() {
+        val paymentRequest = getPaymentRequest()
+        viewModel = BasePaymentViewModel(gateway, paymentRequest)
+    }
+    private fun getPaymentRequest(): PaymentRequest {
+        val json = intent.getStringExtra("Payment_Data")
+            ?: error("Payment_Data is missing")
+        return Json.decodeFromString(json)
     }
 
-
-    private fun setupInputBinding() {
+    private fun setupInputs() {
         binding.etCardNumber.addTextChangedListener {
             viewModel.onCardNumberChange(it.toString())
         }
@@ -66,29 +81,25 @@ class PaymentActivity : AppCompatActivity() {
     private fun observeState() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                updateCardPreview(state)
-//                binding.progressBar.visibility =
-//                    if (state.isLoading) View.VISIBLE else View.GONE
-                state.errorMessage?.let {
-                    Toast.makeText(this@PaymentActivity, it, Toast.LENGTH_SHORT).show()
-                }
-                if (state.isSuccess) {
-                    Toast.makeText(
-                        this@PaymentActivity,
-                        "Payment Success",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                render(state)
             }
         }
     }
 
+    private fun render(state: PaymentUiState) {
+        updateCardPreview(state)
+        state.errorMessage?.let {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        }
+        if (state.isSuccess) {
+            Toast.makeText(this, "Credit Card Valid", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun updateCardPreview(state: PaymentUiState) {
-        val formattedNumber = state.cardNumber
-            .chunked(4)
-            .joinToString(" ")
         binding.tvCardNumber.text =
-            formattedNumber.ifEmpty { "**** **** **** ****" }
+            state.cardNumber.chunked(4).joinToString(" ")
+                .ifEmpty { "**** **** **** ****" }
         binding.tvNamePreview.text =
             state.cardHolder.ifEmpty { "CARD HOLDER" }
         binding.tvExpDate.text =
@@ -96,17 +107,11 @@ class PaymentActivity : AppCompatActivity() {
         binding.tvCvvPreview.text =
             state.cvv.ifEmpty { "***" }
     }
-
     private fun setupCardFlip() {
         binding.etCVV.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                flipToBack()
-            } else {
-                flipToFront()
-            }
+            if (hasFocus) flipToBack() else flipToFront()
         }
     }
-
     private fun flipToBack() {
         binding.cardPreviewFront.animate()
             .rotationY(90f)
@@ -121,7 +126,6 @@ class PaymentActivity : AppCompatActivity() {
                     .start()
             }.start()
     }
-
     private fun flipToFront() {
         binding.cardPreviewBack.animate()
             .rotationY(90f)

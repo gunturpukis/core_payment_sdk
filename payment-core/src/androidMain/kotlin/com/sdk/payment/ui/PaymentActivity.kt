@@ -1,20 +1,25 @@
 package com.sdk.payment.ui
 
+import android.R.attr.alpha
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.sdk.payment.PaymentGateway
+import com.sdk.payment.R
 import com.sdk.payment.config.PaymentConfig
 import com.sdk.payment.databinding.PaymentPageBinding
+import com.sdk.payment.domain.model.CardType
 import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.presentation.BasePaymentViewModel
 import com.sdk.payment.presentation.PaymentUiState
 import io.ktor.client.engine.okhttp.OkHttp
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import java.time.ZoneOffset
 
 class PaymentActivity : AppCompatActivity() {
     private lateinit var binding: PaymentPageBinding
@@ -32,6 +37,36 @@ class PaymentActivity : AppCompatActivity() {
         observeState()
         setupCardFlip()
         setupPayButton()
+
+        val bottomSheet = binding.bottomSheetScan
+        val sheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        binding.layoutTap.setOnClickListener {
+            if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        } else {
+            sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        } }
+
+        sheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState){
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+        })
+
+
+
     }
 
     private fun setupGateway() {
@@ -106,6 +141,65 @@ class PaymentActivity : AppCompatActivity() {
             state.expiryDate.ifEmpty { "MM/YY" }
         binding.tvCvvPreview.text =
             state.cvv.ifEmpty { "***" }
+
+//        when(state.cardType) {
+//            CardType.VISA ->
+//                binding.ivvisa.apply {
+//                    setImageResource(R.drawable.visa).apply {
+//                        imageAlpha = 255
+//                        alpha = 1.0f
+//                    }
+//                }
+//            CardType.MASTERCARD ->
+//                binding.ivmastercard.apply {
+//                setImageResource(R.drawable.payment_logo).apply {
+//                    imageAlpha = 255
+//                    alpha = 1.0f
+//                }
+//            }
+//
+//            CardType.AMEX ->
+//                 binding.ivamex.apply {
+//                    setImageResource(R.drawable.amex).apply {
+//                        imageAlpha = 255
+//                        alpha = 1.0f
+//                    }
+//                }
+//            CardType.JCB ->
+//                binding.ivjcb.apply {
+//                setImageResource(R.drawable.jcb).apply {
+//                    imageAlpha = 255
+//                    alpha = 1.0f
+//
+//                }
+//            }
+//            else ->
+//                binding.ivunion.apply {
+//                    setImageResource(R.drawable.unionpay).apply {
+//                        imageAlpha = 255
+//                        alpha = 1.0f
+//                    }
+//                }
+//
+//        }
+
+        val cardViews = listOf(binding.ivvisa, binding.ivmastercard, binding.ivamex, binding.ivjcb, binding.ivunion)
+        cardViews.forEach {
+            it.alpha = 0.21f
+            it.imageAlpha = (255 * 0.5).toInt()
+        }
+        val activeView = when(state.cardType) {
+            CardType.VISA -> binding.ivvisa
+            CardType.MASTERCARD -> binding.ivmastercard
+            CardType.AMEX -> binding.ivamex
+            CardType.JCB -> binding.ivjcb
+            CardType.UNIONPAY -> binding.ivunion
+            else -> binding.ivmastercard
+        }
+        activeView.apply {
+            alpha = 1.0f
+            imageAlpha = 255
+        }
     }
     private fun setupCardFlip() {
         binding.etCVV.setOnFocusChangeListener { _, hasFocus ->

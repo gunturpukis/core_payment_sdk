@@ -6,6 +6,7 @@ import com.sdk.payment.domain.model.CardDetails
 import com.sdk.payment.domain.model.PaymentDetails
 import com.sdk.payment.domain.model.PaymentMethod
 import com.sdk.payment.domain.model.PaymentRequest
+import com.sdk.payment.presentation.detector.CardTypeDetector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,10 +25,14 @@ class BasePaymentViewModel(
             .replace(" ", "")
             .chunked(4)
             .joinToString(" ")
+
+        val clean = number.replace(" ", "")
+        val type = CardTypeDetector.detect(clean)
         _uiState.update {
             it.copy(
                 cardNumber = number,
-                cardNumberFormatted = formatted
+                cardNumberFormatted = formatted,
+                cardType = type
             )
         }
     }

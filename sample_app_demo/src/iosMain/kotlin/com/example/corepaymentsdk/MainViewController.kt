@@ -2,4 +2,4 @@ package com.example.corepaymentsdk
 
 import androidx.compose.ui.window.ComposeUIViewController
 
-fun MainViewController() = ComposeUIViewController { App(PaymentScreen()) }
+//fun MainViewController() = ComposeUIViewController { App(PaymentScreen()) }

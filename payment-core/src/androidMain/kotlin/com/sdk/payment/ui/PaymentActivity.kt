@@ -145,6 +145,9 @@ class PaymentActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
                 render(state)
+                state.errorMessage?.let { message ->
+                    Toast.makeText(this@PaymentActivity, message, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

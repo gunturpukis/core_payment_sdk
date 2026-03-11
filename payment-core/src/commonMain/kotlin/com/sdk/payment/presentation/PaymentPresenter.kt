@@ -77,11 +77,12 @@ class BasePaymentViewModel(
         if (month !in 1..12) {
             throw IllegalArgumentException("Invalid expiry month")
         }
+        val formattedMonth = month.toString().padStart(2, '0')
         val request = initialPaymentRequest.copy(
             cardDetails = CardDetails(
                 cardNumber = currentState.cardNumber.replace(" ", ""),
                 cardHolderName = currentState.cardHolder,
-                cardExpiredMonth = month.toString(),
+                cardExpiredMonth = formattedMonth,
                 cardExpiredYear = "20" + (parts.getOrNull(1) ?: ""),
                 cardCvn = currentState.cvv
             )
@@ -98,7 +99,7 @@ class BasePaymentViewModel(
             }
             Napier.d("Payment result: $result")
         } catch (e: Exception) {
-
+            Napier.e("Errornya apa: ${e.message.toString()}")
             _uiState.update {
                 it.copy(
                     isLoading = false,
@@ -108,7 +109,6 @@ class BasePaymentViewModel(
         }
 
     }
-
     private fun validateInput(state: PaymentUiState): Boolean {
         val card = state.cardNumber.replace(" ", "")
         return card.length >= 16 &&

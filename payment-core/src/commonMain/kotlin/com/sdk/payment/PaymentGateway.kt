@@ -20,6 +20,10 @@ class PaymentGateway(
     private val api = PaymentApi(client)
     private val repository = PaymentRepository(api)
     suspend fun charge(request: PaymentRequest): PaymentResult {
-        return repository.pay(request)
+        return try {
+            repository.pay(request)
+        } catch (e: Exception) {
+            PaymentResult(e.message ?: "Unknown error")
+        }
     }
 }

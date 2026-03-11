@@ -2,9 +2,7 @@ package com.sdk.payment.foundation.network
 
 
 import io.ktor.client.plugins.api.*
-import io.ktor.client.request.*
 import io.ktor.http.content.TextContent
-import io.ktor.util.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive

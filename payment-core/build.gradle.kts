@@ -59,6 +59,8 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
                 implementation("org.kotlincrypto.hash:sha2:0.5.1")
+                implementation("io.github.aakira:napier:2.6.1")
+//                implementation("com.airbnb.android:lottie:6.4.0")
 //                implementation("io.ktor:ktor-client-okhttp:2.3.12")
 
             }
@@ -68,6 +70,9 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-okhttp:2.3.7")
                 implementation("com.google.android.material:material:1.11.0")
+                implementation("com.airbnb.android:lottie:6.4.0")
+                implementation("com.airbnb.android:lottie-compose:6.4.0")
+                implementation("io.github.aakira:napier:2.6.1")
                 
             }
         }

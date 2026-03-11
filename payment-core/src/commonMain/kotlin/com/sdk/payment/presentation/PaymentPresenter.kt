@@ -7,16 +7,17 @@ import com.sdk.payment.domain.model.PaymentDetails
 import com.sdk.payment.domain.model.PaymentMethod
 import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.presentation.detector.CardTypeDetector
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class BasePaymentViewModel(
     private val gateway: PaymentGateway,
     private val initialPaymentRequest: PaymentRequest,
-//    private val initialPaymentConfig: PaymentConfig
 ) {
     private val _uiState = MutableStateFlow(PaymentUiState())
     val uiState: StateFlow<PaymentUiState> = _uiState.asStateFlow()
@@ -54,6 +55,8 @@ class BasePaymentViewModel(
 
     suspend fun processPayment() {
         val currentState = _uiState.value
+        Napier.d("Processing payment...")
+        Napier.d("Card: ${currentState.cardNumber}")
         if (!validateInput(currentState)) {
             _uiState.update {
                 it.copy(errorMessage = "Invalid card data")
@@ -63,25 +66,39 @@ class BasePaymentViewModel(
         _uiState.update {
             it.copy(isLoading = true, errorMessage = null)
         }
-
+        val parts = currentState.expiryDate.split("/")
+        if (parts.size != 2) {
+            _uiState.update {
+                it.copy(errorMessage = "Invalid expiry date")
+            }
+            return
+        }
+        val month = parts.getOrNull(0)?.toIntOrNull() ?: 0
+        if (month !in 1..12) {
+            throw IllegalArgumentException("Invalid expiry month")
+        }
         val request = initialPaymentRequest.copy(
             cardDetails = CardDetails(
-                cardNumber = _uiState.value.cardNumber.replace(" ", ""),
-                cardHolderName = _uiState.value.cardHolder,
-                cardExpiredMonth = _uiState.value.expiryDate.take(2),
-                cardExpiredYear = "20" + _uiState.value.expiryDate.takeLast(2),
-                cardCvn = _uiState.value.cvv
+                cardNumber = currentState.cardNumber.replace(" ", ""),
+                cardHolderName = currentState.cardHolder,
+                cardExpiredMonth = month.toString(),
+                cardExpiredYear = "20" + (parts.getOrNull(1) ?: ""),
+                cardCvn = currentState.cvv
             )
         )
         try {
             val result = gateway.charge(request)
+            Napier.d("Start payment request")
+            Napier.d("Isinya apa : ${Json.encodeToString(request)}")
             _uiState.update {
                 it.copy(
                     isLoading = false,
                     paymentResult = result
                 )
             }
+            Napier.d("Payment result: $result")
         } catch (e: Exception) {
+
             _uiState.update {
                 it.copy(
                     isLoading = false,
@@ -89,12 +106,15 @@ class BasePaymentViewModel(
                 )
             }
         }
+
     }
 
     private fun validateInput(state: PaymentUiState): Boolean {
-        return state.cardNumber.length >= 16 &&
+        val card = state.cardNumber.replace(" ", "")
+        return card.length >= 16 &&
                 state.cardHolder.isNotEmpty() &&
                 state.expiryDate.length >= 4 &&
                 state.cvv.length >= 3
     }
 }
+

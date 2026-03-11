@@ -1,6 +1,7 @@
 package com.sdk.payment.core.network
 
 import com.sdk.payment.config.PaymentConfig
+import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.foundation.network.SignaturePlugin
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -26,7 +27,7 @@ object HttpClientFactory {
             }
             install(DefaultRequest) {
                 url(config.baseUrl)
-                header("x-version",config.apiVersion)
+                header("x-version", config.apiVersion)
                 header("response-type", "url")
                 header("Content-Type", "application/json")
                 val authString = "${config.merchantId}:${config.secretUnbound}"

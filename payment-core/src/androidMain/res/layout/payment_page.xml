@@ -250,6 +250,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:layout_marginEnd="8dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -259,8 +260,10 @@
                         android:id="@+id/etExpDate"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:hint="MM/YYYY"
-                        android:inputType="datetime"
+                        android:hint="MM/YY"
+                        android:digits="0123456789/"
+                        android:inputType="number"
+                        android:maxLength="5"
                         android:background="@drawable/bg_input_field"
                         android:paddingHorizontal="16dp"
                         android:layout_marginTop="8dp"/>
@@ -272,11 +275,27 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:layout_marginStart="8dp">
-                    <TextView
+
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CVN/CVV"
-                        android:textStyle="bold"/>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CVN/CVV"
+                            android:textStyle="bold"
+                            android:layout_marginRight="5dp"/>
+                        <ImageView
+                            android:id="@+id/btnInfoCvv"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:alpha="0.5"
+                            android:src="@drawable/baseline_info_24"/>
+
+                    </LinearLayout>
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etCVV"
                         android:layout_width="match_parent"
@@ -318,6 +337,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/lytSwitch"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -400,7 +420,7 @@
         android:id="@+id/bottomSheetScan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/cardview_light_background"
+        android:background="@drawable/bg_btmsheet_rounded"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="24dp"
@@ -415,10 +435,15 @@
             android:layout_marginBottom="24dp"
             android:background="#E0E0E0" />
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/tapcard" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieTapCard"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerInParent="true"
+            app:lottie_rawRes="@raw/animasi_card_nfc"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_speed="1.2" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -456,7 +481,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="10dp"
-                android:text="Your Data is Protected"
+                android:text="Your card details are securely protected"
                 android:textColor="#424242"
                 android:textSize="13sp" />
         </LinearLayout>

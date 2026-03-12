@@ -19,6 +19,8 @@ import com.sdk.payment.domain.model.PaymentOptions
 import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.domain.model.ShippingAddres
 import com.sdk.payment.ui.PaymentActivity
+import io.ktor.util.encodeBase64
+import io.ktor.utils.io.core.toByteArray
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -94,15 +96,14 @@ fun PaymentScreen() {
         val merchantId = "MC2026016183"
         val secretUnbound = "0x85e19e9ff024614509"
         val hashKey = "U07P9kpkmYeUDLiqZZVymciPnr3QdN/tL+XBL3Adkck"
-        
+        val credential = "${merchantId}:${secretUnbound}:${hashKey}"
+        val credentiialToken = credential.toByteArray().encodeBase64()
+
             Button(
                 onClick = {
                     val jsonString = Json.encodeToString(paymentRequest)
                     val intent = Intent(context, PaymentActivity::class.java).apply {
-//                        putExtra("Payment_Data", jsonString)
-                        putExtra("merchantId", merchantId)
-                        putExtra("secretUnbound", secretUnbound)
-                        putExtra("hashKey", hashKey)
+                        putExtra("credentialToken", credentiialToken)
                         putExtra("Payment_Data", jsonString)
                     }
                     context.startActivity(intent)

@@ -3,4 +3,6 @@
     <color name="card_blue">#0E8BFF</color>
     <color name="button_dark">#212121</color>
     <color name="hint_gray">#BDBDBD</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#FF3B30</color>
 </resources>

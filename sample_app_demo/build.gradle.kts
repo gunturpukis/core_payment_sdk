@@ -50,6 +50,7 @@ kotlin {
             implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
             implementation(project(":payment-core"))
+//            implementation("com.github.devnied:EMV-NFC-Paycard-Enrollment:1.0.5")
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -63,12 +64,14 @@ kotlin {
 //            implementation("io.ktor:ktor-client-okhttp")
             implementation("io.ktor:ktor-client-core:2.3.7")
             implementation(project(":payment-core"))
+//            implementation("com.github.devnied:EMV-NFC-Paycard-Enrollment:1.0.5")
         }
         iosMain.dependencies {
             implementation(libs.kotlin.test)
 //            implementation("io.ktor:ktor-client-darwin")
             implementation("io.ktor:ktor-client-core:2.3.7")
-//            implementation(project(":payment-core"))
+//            implementation("com.github.devnied:EMV-NFC-Paycard-Enrollment:1.0.5")
+            implementation(project(":payment-core"))
         }
     }
 }

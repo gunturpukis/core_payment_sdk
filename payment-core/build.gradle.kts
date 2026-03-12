@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("org.jetbrains.kotlin.native.cocoapods")
     id("com.android.library")
+//    id("org.jetbrains.compose")
 //    id("org.jetbrains.kotlin.android")
 }
 
@@ -60,6 +61,12 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
                 implementation("org.kotlincrypto.hash:sha2:0.5.1")
                 implementation("io.github.aakira:napier:2.6.1")
+
+//                implementation("com.github.devnied:EMV-NFC-Paycard-Enrollment:1.0.5")
+//                implementation(compose.runtime)
+//                implementation(compose.foundation)
+//                implementation(compose.material3)
+//                implementation(compose.ui)
 //                implementation("com.airbnb.android:lottie:6.4.0")
 //                implementation("io.ktor:ktor-client-okhttp:2.3.12")
 
@@ -73,6 +80,11 @@ kotlin {
                 implementation("com.airbnb.android:lottie:6.4.0")
                 implementation("com.airbnb.android:lottie-compose:6.4.0")
                 implementation("io.github.aakira:napier:2.6.1")
+//                implementation("com.github.devnied:EMV-NFC-Paycard-Enrollment:1.0.5")
+//                implementation(compose.runtime)
+//                implementation(compose.foundation)
+//                implementation(compose.material3)
+//                implementation(compose.ui)
                 
             }
         }

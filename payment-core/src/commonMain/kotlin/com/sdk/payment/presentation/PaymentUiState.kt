@@ -13,5 +13,10 @@ data class PaymentUiState(
     val isSuccess: Boolean = false,
     val paymentResult: PaymentResult? = null,
     val cardType: CardType = CardType.UNKNOWN,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+
+    val cardNumberError: String? = null,
+    val cardHolderError: String? = null,
+    val expiryDateError: String? = null,
+    val cvvError: String? = null
 )

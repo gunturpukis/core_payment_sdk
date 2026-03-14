@@ -9,6 +9,6 @@ data class CustomerDetails(
     @SerialName("full_name")
     val fullName: String? = null,
     val phone: String? = null,
-    @SerialName("postal_code")
-    val postalCode: String? = null,
+    @SerialName("ip_address")
+    val ipAddress: String? = null,
 )

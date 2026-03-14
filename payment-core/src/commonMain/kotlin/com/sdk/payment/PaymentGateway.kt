@@ -1,4 +1,3 @@
-
 package com.sdk.payment
 
 import com.sdk.payment.config.PaymentConfig
@@ -7,6 +6,7 @@ import com.sdk.payment.data.remote.PaymentApi
 import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.domain.model.PaymentResponse
 import com.sdk.payment.data.remote.PaymentRepository
+import io.github.aakira.napier.Napier
 import io.ktor.client.engine.HttpClientEngine
 
 class PaymentGateway(
@@ -15,7 +15,7 @@ class PaymentGateway(
 ) {
     companion object {
         private const val SUCCESS_CODE = "00"
-        private const val ERROR_CODE = "99"
+        private const val ERROR_CODE = "01"
     }
     private val client = HttpClientFactory.create(
         engine = engine,
@@ -30,21 +30,14 @@ class PaymentGateway(
             val result = repository.pay(request)
             when {
                 result.responseCode == SUCCESS_CODE -> {
-                    //Napier.d("Payment success: Link = ${result.data?.link}")
                     result
                 }
                 else -> {
-                    //Napier.w("Payment failed - Code: ${result.responseCode}, Message: ${result.responseMessage}")
                     result
                 }
             }
         } catch (e: Exception) {
-            //Napier.e("Payment error occurred", e)
-            PaymentResponse(
-                responseCode = ERROR_CODE,
-                responseMessage = e.message ?: "Unknown error occurred",
-                data = null
-            )
+           throw e
         }
     }
 }

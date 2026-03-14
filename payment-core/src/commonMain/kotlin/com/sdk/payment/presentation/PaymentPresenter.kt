@@ -140,13 +140,11 @@ class BasePaymentViewModel(
     fun processPayment(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             try {
-                //Napier.d("Starting payment process...")
                 val currentState = _uiState.value
                 val validatedState = validateInput(currentState)
                 _uiState.value = validatedState
 
                 if (!isAllValid(validatedState)) {
-                    //Napier.d("Validation failed")
                     _uiState.update {
                         it.copy(
                             errorMessage = "Please fix the errors above",
@@ -162,7 +160,6 @@ class BasePaymentViewModel(
                 val year = "20" + (expiryParts.getOrNull(1) ?: "00")
                 val paymentRequest = buildPaymentRequest(validatedState, month, year)
 
-                //Napier.d("Payment Request: ${Json.encodeToString(paymentRequest)}")
                 val result = gateway.charge(paymentRequest)
                 _uiState.update {
                     it.copy(
@@ -171,9 +168,7 @@ class BasePaymentViewModel(
                         errorMessage = null
                     )
                 }
-                //Napier.d("Payment successful: ${result.data?.link}")
             } catch (e: Exception) {
-                //Napier.e("Payment failed: ${e.message}", e)
                 _uiState.update {
                     it.copy(
                         errorMessage = e.message ?: "Payment failed",

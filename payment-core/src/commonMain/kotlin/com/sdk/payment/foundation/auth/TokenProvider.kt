@@ -6,28 +6,13 @@ import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 
-//interface TokenProvider {
-//
-//    suspend fun getTokenPair(): TokenPair
-//
-////    suspend fun getRefreshToken(): String?
-//
-//    suspend fun refreshToken(
-//        refreshUrl: String,
-//        clientId: String,
-//        clientSecret: String
-//    )
-//}
 class TokenProvider(
     private val client: HttpClient
 ) {
-
     private var tokenPair: TokenPair? = null
-
     fun getTokenPair(): TokenPair {
         return tokenPair ?: error("Token not initialized")
     }
-
     suspend fun refreshToken(
         refreshUrl: String,
         clientId: String,
@@ -48,7 +33,6 @@ class TokenProvider(
             expiresAt = response["expires_at"]!!.toLong()
         )
     }
-
     fun setToken(token: TokenPair) {
         tokenPair = token
     }

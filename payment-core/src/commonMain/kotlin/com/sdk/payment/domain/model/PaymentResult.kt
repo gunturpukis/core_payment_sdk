@@ -6,11 +6,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PaymentResponse(
     @SerialName("response_code")
-    val responseCode: String,
+    val responseCode: String? = null,
     @SerialName("response_message")
-    val responseMessage: String,
+    val responseMessage: String? = null,
     @SerialName("data")
-    val data: PaymentResult?
+    val data: PaymentResult? = null
 )
 
 @Serializable

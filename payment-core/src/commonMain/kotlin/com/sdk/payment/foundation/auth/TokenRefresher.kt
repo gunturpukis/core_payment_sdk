@@ -7,10 +7,8 @@ class TokenRefresher(
     private val config: AuthConfig,
     private val tokenProvider: TokenProvider
 ) {
-
     suspend fun refreshIfNeeded() {
         val tokens = tokenProvider.getTokenPair()
-
         if (tokens.isExpired()) {
             tokenProvider.refreshToken(
                 config.refreshUrl,

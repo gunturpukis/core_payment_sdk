@@ -6,9 +6,7 @@ import com.sdk.payment.nfc.NfcTransceiver
 class EmvReader(
     private val transceiver: NfcTransceiver
 ) {
-
     fun read(): NfcResult {
-
         val selectPpse = byteArrayOf(
             0x00,0xA4.toByte(),0x04,0x00,
             0x0E,
@@ -16,9 +14,7 @@ class EmvReader(
             0x2E,0x44,0x44,0x46,0x30,0x31,
             0x00
         )
-
         val response = transceiver.transceive(selectPpse)
-
         val parser = EmvParser()
         return parser.parse(response)
     }

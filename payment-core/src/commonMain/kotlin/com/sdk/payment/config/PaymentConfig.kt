@@ -6,10 +6,7 @@ data class PaymentConfig(
     val timeoutMillis: Long = 30_000,
     val secretUnbound: String,
     val hashKey: String,
-//    val refreshUrl: String,
     val apiVersion: String = "v3",
-//    val externalId: String,
-//    val orderId: String,
 ) {
 
 }

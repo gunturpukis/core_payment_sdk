@@ -79,7 +79,8 @@ data class BillingAddres(
     val phone: String? = null,
     val address: String? = null,
     val city: String? = null,
-    val postalCode: Int,
+    @SerialName("postal_code")
+    val postalCode: String? = null,
     val country: String? = null
 )
 @Serializable
@@ -89,7 +90,8 @@ data class ShippingAddres(
     val phone: String? = null,
     val address: String? = null,
     val city: String? = null,
-    val postalCode: Int,
+    @SerialName("postal_code")
+    val postalCode: String? = null,
     val country: String? = null
 )
 @Serializable

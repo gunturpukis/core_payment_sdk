@@ -26,9 +26,7 @@ import kotlinx.serialization.json.Json
 
 @Composable
 fun PaymentScreen() {
-
     val context = LocalContext.current
-
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -37,19 +35,20 @@ fun PaymentScreen() {
             externalId = "14rRAb1eiS",
             orderId = "OKo2H5B8gm",
             currency = "IDR",
-            paymentMethod = "Card",
+            paymentMethod = "card",
             paymentChannel = "BRICC",
             paymentMode = "CLOSE",
             paymentDetails = PaymentDetails(
-                amount = 100000,
-                transactionDescription = "Payment order #12345",
+                amount = 10000,
+                transactionDescription = "Clothes",
                 isCustomerPayingFee = false,
                 expiredTime =""
             ),
             customerDetails = CustomerDetails(
-                email = "customer@mail.com",
-                fullName = "John Doe",
-                phone = "08123456789"
+                email = "solutions@ifortepay.id",
+                fullName = "Testing",
+                phone = "08970799128",
+                ipAddress = "182.30.91.67"
             ),
             cardDetails = CardDetails(
                 cardNumber = "",
@@ -58,8 +57,8 @@ fun PaymentScreen() {
                 cardCvn = "",
                 cardHolderName = ""
             ),
-            returnUrl = "https://merchant.com/payment-return",
-            callbackUrl = "https://merchant.com/payment-callback",
+            returnUrl = "https://superapp-stg.ifortepay.id/",
+            callbackUrl = "https://mcpid.free.beeceptor.com",
             itemDetails = listOf(
                 ItemDetails(
                     itemId = "Artikel 1",
@@ -70,19 +69,19 @@ fun PaymentScreen() {
                 )
             ),
             billingAddress = BillingAddres(
-                fullName = "CC test",
+                fullName = "CC Test",
                 phone = "0893456789",
-                address = "Bandara Mas",
-                city = "Surabaya",
-                postalCode = 10200,
+                address = "Kosan Hj Hasan",
+                city = "Tangerang",
+                postalCode = "19127",
                 country = "ID"
             ),
             shippingAddress = ShippingAddres(
-                fullName = "Labubu",
-                phone = "088833224455",
-                address = "kosan",
-                city = "Jonggol",
-                postalCode = 12140,
+                fullName = "MCP",
+                phone = "0893456789",
+                address = "Bandara Mas",
+                city = "Malang",
+                postalCode = "10210",
                 country = "ID"
             ),
             paymentOptions = PaymentOptions(

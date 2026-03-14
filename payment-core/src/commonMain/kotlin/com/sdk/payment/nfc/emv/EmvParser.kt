@@ -8,7 +8,6 @@ class EmvParser {
         val cardNumber = extract(hex, "5A")
         val expiry = extract(hex, "5F24")
         val holder = extract(hex, "5F20")
-
         return NfcResult(
             cardNumber = cardNumber,
             expiryDate = expiry,
@@ -25,7 +24,6 @@ class EmvParser {
             index + tag.length + 2 + (length * 2)
         )
     }
-
     private fun detectType(pan: String?): String? {
         if (pan == null) return null
         return when {

@@ -33,6 +33,7 @@ import io.ktor.util.decodeBase64String
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import androidx.core.graphics.drawable.toDrawable
+import io.github.aakira.napier.Napier
 
 class PaymentActivity : AppCompatActivity() {
 
@@ -139,9 +140,7 @@ class PaymentActivity : AppCompatActivity() {
                     }
                 }
                 if (state.paymentResponse != null) {
-                    //Napier.d("Payment successful: ${state.paymentResponse.data?.link.toString()}")
-//                    showSuccessToast("Payment Successful!")
-                    lifecycleScope.launch {
+                  lifecycleScope.launch {
                         kotlinx.coroutines.delay(1500)
                         resetPaymentForm()
                     }
@@ -306,7 +305,6 @@ class PaymentActivity : AppCompatActivity() {
     }
     private fun setupPayButton() {
         binding.btnPay.setOnClickListener {
-            // Trigger payment process with lifecycleScope
             viewModel.processPayment(lifecycleScope)
         }
     }

@@ -7,7 +7,7 @@ actual class NfcManager {
     actual fun stopScan() {
     }
 
-    actual fun setListener(listener: NfcListener) {
+    actual fun setListener(listener: (NfcResult) -> Unit) {
     }
 }
 

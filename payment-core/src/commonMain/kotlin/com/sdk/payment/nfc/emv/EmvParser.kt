@@ -1,4 +1,6 @@
-package com.sdk.payment.nfc
+package com.sdk.payment.nfc.emv
+
+import com.sdk.payment.nfc.NfcResult
 
 class EmvParser {
     fun parse(data: ByteArray): NfcResult {

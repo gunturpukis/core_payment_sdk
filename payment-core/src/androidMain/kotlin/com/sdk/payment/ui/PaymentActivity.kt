@@ -1,16 +1,17 @@
 package com.sdk.payment.ui
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
+import android.nfc.NfcAdapter
+import android.nfc.Tag
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,11 +19,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.textfield.TextInputLayout
 import com.sdk.payment.PaymentGateway
 import com.sdk.payment.R
 import com.sdk.payment.config.PaymentConfig
 import com.sdk.payment.databinding.PaymentPageBinding
-import com.sdk.payment.domain.model.CardType
 import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.nfc.NfcManager
 import com.sdk.payment.presentation.BasePaymentViewModel
@@ -34,11 +35,13 @@ import kotlinx.serialization.json.Json
 import androidx.core.graphics.drawable.toDrawable
 
 class PaymentActivity : AppCompatActivity() {
+
     private lateinit var binding: PaymentPageBinding
     private lateinit var viewModel: BasePaymentViewModel
     private lateinit var gateway: PaymentGateway
-    private lateinit var lottieAnimation: LottieAnimationView
     private lateinit var nfcManager: NfcManager
+    private var loadingDialog: Dialog? = null
+    private lateinit var lottieAnimation: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,184 +50,105 @@ class PaymentActivity : AppCompatActivity() {
 
         nfcManager = NfcManager(this)
 
-
         setupGateway()
         setupViewModel()
-        setupInputs()
-        observeState()
+        setupInputListeners()
+        observeViewModelState()
         setupCardFlip()
         setupPayButton()
-        setUpsheetBottom()
+        setupBottomSheet()
+        setupCvvInfoButton()
+    }
 
-        val btnCvvInfo = binding.btnInfoCvv
-        btnCvvInfo.setOnClickListener {
-            showCvvDialog()
+    override fun onPause() {
+        super.onPause()
+        nfcManager.stopScan()
+    }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val tag = intent?.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
+        tag?.let {
+            nfcManager.onTagDiscovered(it)
         }
     }
-    private var loadingDialog: Dialog? = null
-    private fun showLoading() {
-        loadingDialog = Dialog(this)
-        loadingDialog?.setContentView(R.layout.dialog_loading)
-        loadingDialog?.setCancelable(false)
-        loadingDialog?.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
-        loadingDialog?.show()
-    }
-    private fun hideLoading() {
-        loadingDialog?.dismiss()
-    }
-
-    fun setUpsheetBottom(){
-        val bottomSheet = binding.bottomSheetScan
-        val blurView = binding.viewBlurBackground
-        val sheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        binding.layoutTap.setOnClickListener {
-
-            nfcManager.setListener { result ->
-                binding.etCardNumber.setText(result.cardNumber)
-                binding.etExpDate.setText(result.expiryDate)
-                binding.etCardName2.setText(result.cardHolder)
-            }
-
-            lottieAnimation = binding.lottieTapCard
-            lottieAnimation.speed = 1.0f
-            lottieAnimation.playAnimation()
-            if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            } else {
-                sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            } }
-        sheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState){
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                        blurView.visibility = View.INVISIBLE
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        blurView.visibility = View.VISIBLE
-                    }
-                }
-            }
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                blurView.alpha = slideOffset
-            }
-        })
-    }
-
-    fun showCvvDialog() {
-        val builder = AlertDialog.Builder(this)
-        val view = layoutInflater.inflate(R.layout.idalog_cvv_info, null)
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.show()
-        dialog.window?.apply {
-            setBackgroundDrawableResource(android.R.color.transparent)
-            val params = attributes
-            params.gravity = Gravity.CENTER
-            val displayMetrics = resources.displayMetrics
-            params.width = (displayMetrics.widthPixels * 0.9).toInt()
-            params.height = WindowManager.LayoutParams.WRAP_CONTENT
-            attributes = params
-            addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-            setDimAmount(0.6f)
-        }
-        view.findViewById<ImageButton>(R.id.btn_close).setOnClickListener {
-            dialog.dismiss()
-        }
-    }
-
     private fun setupGateway() {
-        val credToken = intent.getStringExtra("credentialToken") ?: ""
-        val decodedString = credToken.decodeBase64String()
-        val parts = decodedString.split(":")
-            val merchantId = parts[0]
-            val secretUnbound = parts[1]
-            val hashKey = parts[2]
-            println("Merchant ID: $merchantId")
-            println("SecretOunbond: $secretUnbound")
-            println("hashKey: $hashKey")
+        try {
+            val credToken = intent.getStringExtra("credentialToken") ?: ""
+            val decodedString = credToken.decodeBase64String()
+            val parts = decodedString.split(":")
 
-        gateway = PaymentGateway(
-            engine = OkHttp.create(),
-            config = PaymentConfig(
-                baseUrl = "https://api-stage.mcpayment.id/card-v2/v1/charge",
-                merchantId = merchantId,
-                timeoutMillis = 30_000,
-                secretUnbound = secretUnbound,
-                hashKey = hashKey,
-                apiVersion = "v3",
-            ),
-        )
+            val merchantId = parts.getOrNull(0) ?: ""
+            val secretUnbound = parts.getOrNull(1) ?: ""
+            val hashKey = parts.getOrNull(2) ?: ""
+
+            gateway = PaymentGateway(
+                engine = OkHttp.create(),
+                config = PaymentConfig(
+                    baseUrl = "https://api-stage.mcpayment.id/card-v2/v1/charge",
+                    merchantId = merchantId,
+                    timeoutMillis = 30_000,
+                    secretUnbound = secretUnbound,
+                    hashKey = hashKey,
+                    apiVersion = "v3",
+                ),
+            )
+        } catch (e: Exception) {
+            showErrorToast("Failed to setup payment gateway: ${e.message}")
+        }
     }
-
     private fun setupViewModel() {
-        val paymentRequest = getPaymentRequest()
-        viewModel = BasePaymentViewModel(gateway, paymentRequest)
+        try {
+            val paymentRequest = getPaymentRequest()
+            viewModel = BasePaymentViewModel(gateway, paymentRequest)
+        } catch (e: Exception) {
+            showErrorToast("Failed to setup: ${e.message}")
+        }
     }
     private fun getPaymentRequest(): PaymentRequest {
         val json = intent.getStringExtra("Payment_Data")
-            ?: error("Payment_Data is missing")
+            ?: throw IllegalArgumentException("Payment_Data is missing")
         return Json.decodeFromString(json)
     }
-    private fun setupInputs() {
-        binding.etCardNumber.addTextChangedListener {
-            val cardNumber = it.toString()
-            viewModel.onCardNumberChange(cardNumber)
-            if (cardNumber.replace(" ", "").length < 16) {
-                binding.tilCardNumber.error = "Card number must be at least 16 digits"
-                binding.lblCardNumber.setTextColor(Color.RED)
-            } else {
-                binding.tilCardNumber.error = null
-                binding.lblCardNumber.setTextColor(Color.DKGRAY)
-            }
+    private fun setupInputListeners() {
+        binding.etCardNumber.addTextChangedListener { text ->
+            val input = text.toString()
+            viewModel.onCardNumberChange(input)
         }
-        binding.etCardName2.addTextChangedListener {
-            val cardName = it.toString()
-            viewModel.onCardHolderChange(cardName)
-            if (cardName.isEmpty()){
-                binding.tilCardName2.error = "Card holder name cannot be empty"
-                binding.lblCardNumber2.setTextColor(Color.RED)
-            } else {
-                binding.tilCardName2.error = null
-                binding.lblCardNumber2.setTextColor(Color.DKGRAY)
-            }
+        binding.etCardName2.addTextChangedListener { text ->
+            val input = text.toString()
+            viewModel.onCardHolderChange(input)
         }
-        binding.etExpDate.addTextChangedListener {
-            val expiryDate = it.toString()
-            viewModel.onExpiryDateChange(it.toString())
-            if (expiryDate.isEmpty()) {
-                binding.tilExpDate.error = "Expired date cannot be empty"
-                binding.lblExpDate.setTextColor(Color.RED)
-            } else {
-                binding.tilExpDate.error = null
-                binding.lblExpDate.setTextColor(Color.DKGRAY)
-            }
+        binding.etExpDate.addTextChangedListener { text ->
+            val input = text.toString()
+            viewModel.onExpiryDateChange(input)
         }
-        binding.etCVV.addTextChangedListener {
-            val cvv = it.toString()
-            viewModel.onCvvChange(it.toString())
-            if(cvv.isEmpty()){
-                binding.tilCvv.error = "CVV cannot be empty"
-                binding.lblCvv.setTextColor(Color.RED)
-                binding.btnInfoCvv.setColorFilter(Color.RED)
-            } else {
-                binding.tilCvv.error = null
-                binding.lblCvv.setTextColor(Color.DKGRAY)
-                binding.btnInfoCvv.setColorFilter(Color.DKGRAY)
-            }
+        binding.etCVV.addTextChangedListener { text ->
+            val input = text.toString()
+            viewModel.onCvvChange(input)
         }
     }
-
-    private fun observeState() {
+    private fun observeViewModelState() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                render(state)
-                state.errorMessage?.let { message ->
-                    Toast.makeText(this@PaymentActivity, message, Toast.LENGTH_LONG).show()
+                updateCardPreview(state)
+                updateValidationErrors(state)
+
+                state.errorMessage?.let { errorMsg ->
+                    if (errorMsg != "Please fix the errors above") {
+                        showErrorToast(errorMsg)
+                    }
+                }
+                if (state.paymentResponse != null) {
+                    //Napier.d("Payment successful: ${state.paymentResponse.data?.link.toString()}")
+//                    showSuccessToast("Payment Successful!")
+                    lifecycleScope.launch {
+                        kotlinx.coroutines.delay(1500)
+                        resetPaymentForm()
+                    }
                 }
             }
         }
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.isLoading.collect { loading ->
                 if (loading) {
                     showLoading()
@@ -234,70 +158,124 @@ class PaymentActivity : AppCompatActivity() {
             }
         }
     }
+    private fun updateCardPreview(state: PaymentUiState) {
+        binding.tvCardNumber.text = state.cardNumberFormatted.ifEmpty { "**** **** **** ****" }
+        binding.tvNamePreview.text = state.cardHolder.ifEmpty { "CARD HOLDER" }
+        binding.tvExpDate.text = state.expiryDate.ifEmpty { "MM/YY" }
+        binding.tvCvvPreview.text = state.cvv.ifEmpty { "***" }
+        updateCardTypeIcons(state.cardType.toString())
+    }
+    private fun updateCardTypeIcons(cardType: String) {
+        val cardViewMappings = listOf(
+            binding.ivvisa to "VISA",
+            binding.ivmastercard to "MASTERCARD",
+            binding.ivamex to "AMEX",
+            binding.ivjcb to "JCB",
+            binding.ivunion to "UNIONPAY"
+        )
 
-    private fun render(state: PaymentUiState) {
-        updateCardPreview(state)
-        state.errorMessage?.let {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-        }
-        if (state.isSuccess) {
-            Toast.makeText(this, "Credit Card Valid", Toast.LENGTH_SHORT).show()
+        cardViewMappings.forEach { (view, type) ->
+            val isActive = cardType.equals(type, ignoreCase = true)
+            view.alpha = if (isActive) 1.0f else 0.21f
+            view.imageAlpha = if (isActive) 255 else (255 * 0.5).toInt()
         }
     }
+    private fun updateValidationErrors(state: PaymentUiState) {
+        updateFieldError(
+            binding.tilCardNumber,
+            binding.lblCardNumber,
+            state.cardNumberError
+        )
+        updateFieldError(
+            binding.tilCardName2,
+            binding.lblCardNumber2,
+            state.cardHolderError
+        )
+        updateFieldError(
+            binding.tilExpDate,
+            binding.lblExpDate,
+            state.expiryDateError
+        )
+        updateFieldErrorWithIcon(
+            binding.tilCvv,
+            binding.lblCvv,
+            binding.btnInfoCvv,
+            state.cvvError
+        )
+    }
+    private fun updateFieldError(
+        textInputLayout: TextInputLayout,
+        label: TextView,
+        error: String?
+    ) {
+        textInputLayout.error = error
+        label.setTextColor(if (error != null) Color.RED else Color.DKGRAY)
+    }
+    private fun updateFieldErrorWithIcon(
+        textInputLayout: TextInputLayout,
+        label: TextView,
+        iconButton: ImageView,
+        error: String?
+    ) {
+        updateFieldError(textInputLayout, label, error)
+        iconButton.setColorFilter(if (error != null) Color.RED else Color.DKGRAY)
+    }
+    private fun setupBottomSheet() {
+        val bottomSheet = binding.bottomSheetScan
+        val blurView = binding.viewBlurBackground
+        val sheetBehavior: BottomSheetBehavior<View> = BottomSheetBehavior.from(bottomSheet)
+        sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-    private fun updateCardPreview(state: PaymentUiState) {
-        binding.tvCardNumber.text =
-            state.cardNumber.chunked(4).joinToString(" ")
-                .ifEmpty { "**** **** **** ****" }
-        binding.tvNamePreview.text =
-            state.cardHolder.ifEmpty { "CARD HOLDER" }
-        binding.etExpDate.addTextChangedListener(object : TextWatcher {
-            private var current = ""
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString() != current) {
-                    val clean = s.toString().replace("[^\\d]".toRegex(), "")
-                    val sel = binding.etExpDate.selectionStart
-                    var formatted = ""
-                    if (clean.length >= 2) {
-                        formatted = clean.substring(0, 2) + "/" + clean.substring(2)
-                    } else {
-                        formatted = clean
-                    }
-                    if (formatted.length > 5) formatted = formatted.substring(0, 5)
-                    current = formatted
-                    binding.etExpDate.setText(formatted)
-                    binding.etExpDate.setSelection(if (sel <= formatted.length) sel else formatted.length)
-                    viewModel.onExpiryDateChange(formatted)
+        binding.layoutTap.setOnClickListener {
+            startNfcScan(sheetBehavior)
+        }
+        sheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                blurView.visibility = when (newState) {
+                    BottomSheetBehavior.STATE_HIDDEN -> View.INVISIBLE
+                    BottomSheetBehavior.STATE_EXPANDED -> View.VISIBLE
+                    else -> View.INVISIBLE
                 }
             }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable?) {}
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                blurView.alpha = slideOffset
+            }
         })
-        binding.tvCvvPreview.text =
-            state.cvv.ifEmpty { "***" }
-        val cardViews = listOf(binding.ivvisa, binding.ivmastercard, binding.ivamex, binding.ivjcb, binding.ivunion)
-        cardViews.forEach {
-            it.alpha = 0.21f
-            it.imageAlpha = (255 * 0.5).toInt()
+    }
+
+    private fun startNfcScan(sheetBehavior: BottomSheetBehavior<View>) {
+        nfcManager.startScan()
+        nfcManager.setListener { result ->
+            viewModel.onCardNumberChange(result.cardNumber.toString())
+            viewModel.onExpiryDateChange(result.expiryDate.toString())
+            viewModel.onCardHolderChange(result.cardHolder.toString())
+
+            binding.etCardNumber.setText(result.cardNumber)
+            binding.etExpDate.setText(result.expiryDate)
+            binding.etCardName2.setText(result.cardHolder)
+
+            nfcManager.stopScan()
+            sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
-        val activeView = when(state.cardType) {
-            CardType.VISA -> binding.ivvisa
-            CardType.MASTERCARD -> binding.ivmastercard
-            CardType.AMEX -> binding.ivamex
-            CardType.JCB -> binding.ivjcb
-            CardType.UNIONPAY -> binding.ivunion
-            else -> binding.ivmastercard
-        }
-        activeView.apply {
-            alpha = 1.0f
-            imageAlpha = 255
+
+        lottieAnimation = binding.lottieTapCard
+        lottieAnimation.speed = 1.0f
+        lottieAnimation.playAnimation()
+
+        if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
     private fun setupCardFlip() {
         binding.etCVV.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) flipToBack() else flipToFront()
+            if (hasFocus) {
+                flipToBack()
+            } else {
+                flipToFront()
+            }
         }
     }
+
     private fun flipToBack() {
         binding.cardPreviewFront.animate()
             .rotationY(90f)
@@ -328,9 +306,61 @@ class PaymentActivity : AppCompatActivity() {
     }
     private fun setupPayButton() {
         binding.btnPay.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.processPayment()
-            }
+            // Trigger payment process with lifecycleScope
+            viewModel.processPayment(lifecycleScope)
         }
+    }
+    private fun setupCvvInfoButton() {
+        binding.btnInfoCvv.setOnClickListener {
+            showCvvDialog()
+        }
+    }
+    private fun showCvvDialog() {
+        val builder = AlertDialog.Builder(this)
+        val view = layoutInflater.inflate(R.layout.idalog_cvv_info, null)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            val params = attributes
+            params.gravity = Gravity.CENTER
+            val displayMetrics = resources.displayMetrics
+            params.width = (displayMetrics.widthPixels * 0.9).toInt()
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT
+            attributes = params
+            addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            setDimAmount(0.6f)
+        }
+
+        view.findViewById<ImageButton>(R.id.btn_close).setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+    private fun showLoading() {
+        if (loadingDialog == null || !loadingDialog!!.isShowing) {
+            loadingDialog = Dialog(this)
+            loadingDialog?.setContentView(R.layout.dialog_loading)
+            loadingDialog?.setCancelable(false)
+            loadingDialog?.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+            loadingDialog?.show()
+        }
+    }
+    private fun hideLoading() {
+        loadingDialog?.dismiss()
+    }
+    private fun showErrorToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+    private fun showSuccessToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+    private fun resetPaymentForm() {
+        viewModel.reset()
+        binding.etCardNumber.text = null
+        binding.etCardName2.text = null
+        binding.etExpDate.text = null
+        binding.etCVV.text = null
+        viewModel.clearErrors()
     }
 }

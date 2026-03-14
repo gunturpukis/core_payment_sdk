@@ -1,13 +1,10 @@
 package com.sdk.payment.ui
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.nfc.tech.IsoDep
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
@@ -17,7 +14,6 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
@@ -28,18 +24,14 @@ import com.sdk.payment.config.PaymentConfig
 import com.sdk.payment.databinding.PaymentPageBinding
 import com.sdk.payment.domain.model.CardType
 import com.sdk.payment.domain.model.PaymentRequest
-import com.sdk.payment.nfc.NfcListener
 import com.sdk.payment.nfc.NfcManager
-import com.sdk.payment.nfc.NfcTag
 import com.sdk.payment.presentation.BasePaymentViewModel
 import com.sdk.payment.presentation.PaymentUiState
-import io.github.aakira.napier.Napier
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.util.decodeBase64String
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import androidx.core.graphics.drawable.toDrawable
-import com.sdk.payment.nfc.EmvNfcReader
 
 class PaymentActivity : AppCompatActivity() {
     private lateinit var binding: PaymentPageBinding
@@ -52,7 +44,9 @@ class PaymentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = PaymentPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         nfcManager = NfcManager(this)
+
 
         setupGateway()
         setupViewModel()
@@ -61,7 +55,6 @@ class PaymentActivity : AppCompatActivity() {
         setupCardFlip()
         setupPayButton()
         setUpsheetBottom()
-        setupNfcManager()
 
         val btnCvvInfo = binding.btnInfoCvv
         btnCvvInfo.setOnClickListener {
@@ -80,20 +73,6 @@ class PaymentActivity : AppCompatActivity() {
         loadingDialog?.dismiss()
     }
 
-    fun setupNfcManager() {
-        nfcManager.setListener(object : NfcListener{
-            override fun onTagDiscovered(tag: NfcTag) {
-                Napier.d(tag.id)
-            }
-            override fun onError(error: String) {
-                Napier.e(error)
-            }
-        })
-    }
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        nfcManager.handleIntent(intent)
-    }
     fun setUpsheetBottom(){
         val bottomSheet = binding.bottomSheetScan
         val blurView = binding.viewBlurBackground
@@ -101,29 +80,11 @@ class PaymentActivity : AppCompatActivity() {
         sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         binding.layoutTap.setOnClickListener {
 
-            nfcManager.setListener(object : NfcListener{
-                override fun onTagDiscovered(tag: NfcTag) {
-                    lifecycleScope.launch {
-                           val cardData = EmvNfcReader.readCard(
-                               tag = tag
-                           )
-//
-//                        runOnUiThread {
-//
-//                            binding.etCardNumber.setText(cardData.cardNumber)
-//                            binding.etExpDate.setText(cardData.expiryDate)
-//                            binding.etCardName2.setText(cardData.cardHolder)
-//
-//                            viewModel.onCardNumberChange(cardData.cardNumber)
-//                            viewModel.onExpiryDateChange(cardData.expiryDate)
-
-//                        }
-                    }
-                }
-                override fun onError(error: String) {
-                }
-
-            })
+            nfcManager.setListener { result ->
+                binding.etCardNumber.setText(result.cardNumber)
+                binding.etExpDate.setText(result.expiryDate)
+                binding.etCardName2.setText(result.cardHolder)
+            }
 
             lottieAnimation = binding.lottieTapCard
             lottieAnimation.speed = 1.0f
@@ -137,10 +98,10 @@ class PaymentActivity : AppCompatActivity() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState){
                     BottomSheetBehavior.STATE_HIDDEN -> {
-                        blurView.visibility = View.GONE
+                        blurView.visibility = View.INVISIBLE
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
-                        blurView.visibility = View.GONE
+                        blurView.visibility = View.VISIBLE
                     }
                 }
             }

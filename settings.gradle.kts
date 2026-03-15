@@ -1,4 +1,4 @@
-rootProject.name = "CorePaymentSDK"
+rootProject.name = "PaymentCoreSDK"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -32,6 +32,7 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        maven("https://jitpack.io")
     }
 }
 

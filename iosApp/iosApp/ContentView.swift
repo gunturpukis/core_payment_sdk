@@ -1,21 +1,15 @@
-import UIKit
 import SwiftUI
-import ComposeApp
-
-struct ComposeView: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController()
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-}
+import PaymentCoreSDK
 
 struct ContentView: View {
     var body: some View {
-        ComposeView()
+        ComposeViewController()
             .ignoresSafeArea()
     }
 }
-
-
-
+struct ComposeViewController: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        return MainViewControllerKt.MainViewController()
+    }
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}

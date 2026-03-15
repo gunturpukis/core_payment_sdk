@@ -26,8 +26,11 @@
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:indeterminate="true"
                 app:indicatorSize="80dp"
                 app:trackThickness="8dp"
+                android:layout_gravity="center"
+                app:indicatorInset="0dp"
                 app:indicatorColor="@color/card_blue"
                 app:trackColor="#E0E0E0"/>
 

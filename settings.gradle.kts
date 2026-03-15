@@ -1,4 +1,4 @@
-rootProject.name = "CorePaymentSDK"
+rootProject.name = "PaymentCoreSDK"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

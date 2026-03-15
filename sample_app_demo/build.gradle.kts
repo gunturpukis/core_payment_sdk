@@ -1,12 +1,5 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-//    id("org.jetbrains.kotlin.multiplatform")
-//    id("org.jetbrains.kotlin.plugin.compose")
-//    id("com.android.kotlin.multiplatform.library")
-//    id("com.android.library")
-//    id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.multiplatform")
     id("com.android.application")
     id("org.jetbrains.compose")
@@ -14,22 +7,7 @@ plugins {
 }
 
 kotlin {
-//    androidLibrary {
-//        namespace = "com.example.corepaymentsdk"
-//        compileSdk = 34   // atau 35 / 36 sesuai SDK kamu
-//
-//        minSdk = 24       // sesuaikan kebutuhan
-//    }
-//
-//    targets.named("android") {
-//        compilations.all {
-////            compilerOptions.configure {
-//////                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
-////            }
-//        }
-//    }
     androidTarget()
-
 
     listOf(
         iosArm64(),
@@ -45,12 +23,10 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
-//            implementation("io.ktor:ktor-client-okhttp")
             implementation("io.ktor:ktor-client-core:2.3.7")
             implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
             implementation(project(":payment-core"))
-//            implementation("com.github.devnied:EMV-NFC-Paycard-Enrollment:1.0.5")
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -61,16 +37,13 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-//            implementation("io.ktor:ktor-client-okhttp")
             implementation("io.ktor:ktor-client-core:2.3.7")
             implementation(project(":payment-core"))
-//            implementation("com.github.devnied:EMV-NFC-Paycard-Enrollment:1.0.5")
         }
         iosMain.dependencies {
             implementation(libs.kotlin.test)
 //            implementation("io.ktor:ktor-client-darwin")
             implementation("io.ktor:ktor-client-core:2.3.7")
-//            implementation("com.github.devnied:EMV-NFC-Paycard-Enrollment:1.0.5")
             implementation(project(":payment-core"))
         }
     }

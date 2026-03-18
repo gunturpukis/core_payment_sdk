@@ -30,6 +30,7 @@ class PaymentGateway(
             val result = repository.pay(request)
             when {
                 result.responseCode == SUCCESS_CODE -> {
+                    print("Payment result: ${result.data?.link}")
                     result
                 }
                 else -> {

@@ -1,10 +1,11 @@
 package com.sdk.payment
 
 import androidx.compose.ui.window.ComposeUIViewController
-import com.sdk.payment.ui.PaymentScreen
 import platform.UIKit.UIViewController
+import com.sdk.payment.ui.PaymentScreen
 
-fun MainViewController(): UIViewController =
-    ComposeUIViewController {
+fun MainViewController(): UIViewController {
+    return ComposeUIViewController {
         PaymentScreen()
     }
+}

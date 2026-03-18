@@ -25,7 +25,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @Composable
-fun PaymentScreen() {
+fun PaymentScreenAndroid() {
     val context = LocalContext.current
     Box(
         modifier = Modifier.fillMaxSize(),

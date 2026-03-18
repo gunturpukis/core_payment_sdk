@@ -1,4 +1,5 @@
 import SwiftUI
+import PaymentCoreSDK
 
 @main
 struct iOSApp: App {

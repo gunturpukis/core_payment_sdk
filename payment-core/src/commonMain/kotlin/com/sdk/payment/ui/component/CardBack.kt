@@ -26,8 +26,9 @@ fun CardBack(state: CardState) {
     ) {
         Column(
             Modifier
-                .background(Color.DarkGray)
+                .background(Color(0xFF0E8BFF))
                 .padding(24.dp)
+                .fillMaxSize()
         ) {
             Box(
                 Modifier

@@ -7,11 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5A2DC16D2F66D07100BA8878 /* PaymentCoreSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2DC16C2F66D07100BA8878 /* PaymentCoreSDK.xcframework */; };
+		5A2BAB142F693FDB00207B59 /* PaymentGatewaySDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2BAB122F693FD500207B59 /* PaymentGatewaySDK.xcframework */; };
+		5A2BAB152F693FDB00207B59 /* PaymentGatewaySDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2BAB122F693FD500207B59 /* PaymentGatewaySDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5A2BAB0D2F6918A100207B59 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5A2BAB152F693FDB00207B59 /* PaymentGatewaySDK.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		5A2DC16C2F66D07100BA8878 /* PaymentCoreSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PaymentCoreSDK.xcframework; path = "../payment-core/build/XCFrameworks/release/PaymentCoreSDK.xcframework"; sourceTree = "<group>"; };
+		5A2BAB122F693FD500207B59 /* PaymentGatewaySDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PaymentGatewaySDK.xcframework; sourceTree = "<group>"; };
 		FAA6FFDCC4967FA3EED6224B /* PaymentCoreSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaymentCoreSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -46,17 +61,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A2DC16D2F66D07100BA8878 /* PaymentCoreSDK.xcframework in Frameworks */,
+				5A2BAB142F693FDB00207B59 /* PaymentGatewaySDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5A2DC16B2F66D07100BA8878 /* Frameworks */ = {
+		5AA3B7162F67709C007144C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5A2DC16C2F66D07100BA8878 /* PaymentCoreSDK.xcframework */,
+				5A2BAB122F693FD500207B59 /* PaymentGatewaySDK.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -74,7 +89,7 @@
 			children = (
 				8C017150E5240D0761503F2B /* Configuration */,
 				141B6C81ED2E0F42FE9E25C5 /* iosApp */,
-				5A2DC16B2F66D07100BA8878 /* Frameworks */,
+				5AA3B7162F67709C007144C2 /* Frameworks */,
 				B3785B5C8E783E389AB242C7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,12 +101,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ED8A6F3601ADAE7D06AB4084 /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
-				7FCC94781BE90681C1B50708 /* Compile Kotlin */,
 				7FCC9C80A73F2864B15A19BF /* Compile Kotlin */,
 				9A78A13CFA192796E0E865CF /* Compile Kotlin Framework */,
 				F0B491ACBDABC52669632BF7 /* Sources */,
 				E233B1385FFA2BA3B137F079 /* Frameworks */,
 				D3288AF13B80F81D959C1B57 /* Resources */,
+				5A2BAB0D2F6918A100207B59 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -115,7 +130,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					42586589502B9D73D051129B = {
 						CreatedOnToolsVersion = 16.2;
@@ -152,23 +167,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7FCC94781BE90681C1B50708 /* Compile Kotlin */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Compile Kotlin";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :payment-core:embedAndSignAppleFrameworkForXcode\n";
-		};
 		7FCC9C80A73F2864B15A19BF /* Compile Kotlin */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -178,12 +179,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :sample_app_demo:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n\n";
 		};
 		9A78A13CFA192796E0E865CF /* Compile Kotlin Framework */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -197,7 +197,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -214,14 +214,14 @@
 /* Begin XCBuildConfiguration section */
 		658D30C28BEF3F1C9B821FA1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 8C017150E5240D0761503F2B /* Configuration */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 45LGP83A87;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iosApp/Info.plist;
@@ -244,13 +244,11 @@
 		A6DBA6BE9C69167947461E20 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 45LGP83A87;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iosApp/Info.plist;
@@ -307,6 +305,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 45LGP83A87;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -330,6 +329,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -372,6 +372,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 45LGP83A87;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -387,7 +388,9 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};

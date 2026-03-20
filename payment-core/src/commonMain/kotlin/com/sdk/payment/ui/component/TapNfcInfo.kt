@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sdk.payment.Res
 import com.sdk.payment.ic_tapcard
 import org.jetbrains.compose.resources.painterResource
@@ -37,7 +38,7 @@ fun TapNfcInfo(
         modifier = Modifier.fillMaxSize().clickable { onClick() }
     ) {
         Row (
-            Modifier.padding(16.dp),
+            Modifier.padding(13.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -45,12 +46,13 @@ fun TapNfcInfo(
                     resource = Res.drawable.ic_tapcard,
                 ),
                 contentDescription = null,
-                modifier = Modifier.size(width = 50.dp, height = 50.dp),
+                modifier = Modifier.size(width = 40.dp, height = 40.dp),
                 contentScale = ContentScale.Crop,
             )
-            Spacer(Modifier.width(12.dp))
+            Spacer(Modifier.width(15.dp))
             Text(
-                "Just tap the card to your device, and the card information will be filled in automatically."
+                fontSize = 11.sp,
+                 text = "Just tap the card to your device, and the card information will be filled in automatically."
             )
         }
     }

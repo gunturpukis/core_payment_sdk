@@ -32,11 +32,11 @@ kotlin {
 
     androidTarget()
 
-    val paymentCoreXCFramework = XCFramework("PaymentCoreSDK")
+    val paymentCoreXCFramework = XCFramework("PaymentGatewaySDK")
 
     iosX64 {
         binaries.framework {
-            baseName = "PaymentCoreSDK"
+            baseName = "PaymentGatewaySDK"
             isStatic = true
             freeCompilerArgs += listOf(
                 "-Xbinary=stripDebugInfo=true"
@@ -47,7 +47,7 @@ kotlin {
 
     iosArm64 {
         binaries.framework {
-            baseName = "PaymentCoreSDK"
+            baseName = "PaymentGatewaySDK"
             isStatic = true
             freeCompilerArgs += listOf(
                 "-Xbinary=stripDebugInfo=true"
@@ -58,7 +58,7 @@ kotlin {
 
     iosSimulatorArm64 {
         binaries.framework {
-            baseName = "PaymentCoreSDK"
+            baseName = "PaymentGatewaySDK"
             isStatic = true
             freeCompilerArgs += listOf(
                 "-Xbinary=stripDebugInfo=true"
@@ -72,7 +72,7 @@ kotlin {
         homepage = "https://example.com"
         ios.deploymentTarget = "14.0"
         framework {
-            baseName = "PaymentCoreSDK"
+            baseName = "PaymentGatewaySDK"
             isStatic = true
         }
 //        pod("lottie-ios", "~> 4.3.0")
@@ -194,21 +194,38 @@ tasks.register("cleanBuildSdk") {
         "buildSdk"
     )
 }
+//tasks.register("assembleSdk") {
+//    group = "sdk"
+//    description = "Assemble Android AAR and iOS XCFramework"
+//    dependsOn(
+//        "assembleRelease",
+//        "assemblePaymentCoreSDKReleaseXCFramework"
+//    )
+//}
+
 tasks.register("assembleSdk") {
     group = "sdk"
     description = "Assemble Android AAR and iOS XCFramework"
     dependsOn(
         "assembleRelease",
-        "assemblePaymentCoreSDKReleaseXCFramework"
+        "assemblePaymentGatewaySDKReleaseXCFramework" // Sesuaikan nama di sini
     )
 }
+
 tasks.register<Copy>("exportIosXCFramework") {
     group = "sdk"
     description = "Export iOS XCFramework to dist/ios"
-    dependsOn("assemblePaymentCoreSDKReleaseXCFramework")
+    dependsOn("assemblePaymentGatewaySDKReleaseXCFramework") // Sesuaikan nama di sini
     from(layout.buildDirectory.dir("XCFrameworks/release"))
     into(layout.projectDirectory.dir("../dist/ios"))
 }
+//tasks.register<Copy>("exportIosXCFramework") {
+//    group = "sdk"
+//    description = "Export iOS XCFramework to dist/ios"
+//    dependsOn("assemblePaymentCoreSDKReleaseXCFramework")
+//    from(layout.buildDirectory.dir("XCFrameworks/release"))
+//    into(layout.projectDirectory.dir("../dist/ios"))
+//}
 
 tasks.register<Copy>("exportAndroidAar") {
     group = "sdk"

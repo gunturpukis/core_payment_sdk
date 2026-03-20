@@ -1,7 +1,7 @@
 import SwiftUI
-#if canImport(PaymentGatewaySDK)
+//#if canImport(PaymentGatewaySDK)
 import PaymentGatewaySDK
-#endif
+//#endif
 
 struct ContentView: View {
     var body: some View {
@@ -20,7 +20,7 @@ struct ComposeViewController: UIViewControllerRepresentable {
 }
 // MARK: - SDK Bridge
 private func makePaymentViewController() -> UIViewController {
-    #if canImport(PaymentGatewaySDK)
+//    #if canImport(PaymentGatewaySDK)
     // TODO: Replace with the correct factory/initializer from PaymentCoreSDK.
     // The PaymentCoreSDK did not expose a usable Swift API for payment view controller creation.
     // Update this once the correct API is known.
@@ -32,12 +32,12 @@ private func makePaymentViewController() -> UIViewController {
 //    return PlaceholderPaymentViewController(
 //        message: "PaymentCoreSDK linked, but creation API is unknown. Replace factory call in makePaymentViewController()."
 //    )
-    #else
+//    #else
     // SDK not available at build time; show a friendly placeholder so the app still runs.
-    return PlaceholderPaymentViewController(
-        message: "PaymentCoreSDK is not available. Ensure the SDK is added to the target and imported."
-    )
-    #endif
+//    return PlaceholderPaymentViewController(
+//        message: "PaymentCoreSDK is not available. Ensure the SDK is added to the target and imported."
+//    )
+//    #endif
 }
 
 // MARK: - Placeholder VC shown when SDK isn't available or factory is unknown

@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun AlertSecurity() {
@@ -29,16 +30,18 @@ fun AlertSecurity() {
 
         ){
             Column(
-                Modifier.padding(20.dp)
+                Modifier.padding(13.dp)
             ) {
                 Text(
                     textAlign = TextAlign.Center,
+                    fontSize = 12.sp,
                     text = "Your card details are securely protected.",
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
                     textAlign = TextAlign.Start,
+                    fontSize = 12.sp,
                     text = "We collaborate with banks to ensure the security of your card data. We will not access or misuse your card information."
                 )
             }

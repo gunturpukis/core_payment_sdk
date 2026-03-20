@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F144FF48DD67F3FBEDF9B1F /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD9BEC388142CD6E09769CB /* Pods_iosApp.framework */; };
-		5A2BAB142F693FDB00207B59 /* PaymentGatewaySDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2BAB122F693FD500207B59 /* PaymentGatewaySDK.xcframework */; };
-		5A2BAB152F693FDB00207B59 /* PaymentGatewaySDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2BAB122F693FD500207B59 /* PaymentGatewaySDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		01A5BCA88BBE7211F47F477C /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EE5531B555FEBB34BDC6DBA /* Pods_iosApp.framework */; };
+		5AB674E42F6DECB4006763C4 /* PaymentGatewaySDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB674E22F6DECA4006763C4 /* PaymentGatewaySDK.xcframework */; };
+		5AB674E52F6DECB4006763C4 /* PaymentGatewaySDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB674E22F6DECA4006763C4 /* PaymentGatewaySDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -19,7 +19,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5A2BAB152F693FDB00207B59 /* PaymentGatewaySDK.xcframework in Embed Frameworks */,
+				5AB674E52F6DECB4006763C4 /* PaymentGatewaySDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -27,8 +27,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1DD9BEC388142CD6E09769CB /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A2BAB122F693FD500207B59 /* PaymentGatewaySDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PaymentGatewaySDK.xcframework; sourceTree = "<group>"; };
+		0EE5531B555FEBB34BDC6DBA /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AB674E22F6DECA4006763C4 /* PaymentGatewaySDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PaymentGatewaySDK.xcframework; sourceTree = "<group>"; };
 		AA8F94EC13EA76E00ED5D9B8 /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
 		B232D22B9674F245D5AD6249 /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
 		FAA6FFDCC4967FA3EED6224B /* PaymentCoreSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaymentCoreSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,8 +55,6 @@
 		};
 		8C017150E5240D0761503F2B /* Configuration */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = Configuration;
 			sourceTree = "<group>";
 		};
@@ -67,8 +65,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A2BAB142F693FDB00207B59 /* PaymentGatewaySDK.xcframework in Frameworks */,
-				3F144FF48DD67F3FBEDF9B1F /* Pods_iosApp.framework in Frameworks */,
+				5AB674E42F6DECB4006763C4 /* PaymentGatewaySDK.xcframework in Frameworks */,
+				01A5BCA88BBE7211F47F477C /* Pods_iosApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,8 +76,8 @@
 		5AA3B7162F67709C007144C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5A2BAB122F693FD500207B59 /* PaymentGatewaySDK.xcframework */,
-				1DD9BEC388142CD6E09769CB /* Pods_iosApp.framework */,
+				5AB674E22F6DECA4006763C4 /* PaymentGatewaySDK.xcframework */,
+				0EE5531B555FEBB34BDC6DBA /* Pods_iosApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -90,7 +88,6 @@
 				AA8F94EC13EA76E00ED5D9B8 /* Pods-iosApp.debug.xcconfig */,
 				B232D22B9674F245D5AD6249 /* Pods-iosApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -194,9 +191,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -273,8 +274,6 @@
 		658D30C28BEF3F1C9B821FA1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AA8F94EC13EA76E00ED5D9B8 /* Pods-iosApp.debug.xcconfig */;
-			baseConfigurationReferenceAnchor = 8C017150E5240D0761503F2B /* Configuration */;
-			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

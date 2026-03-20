@@ -34,7 +34,6 @@ fun PaymentScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(20.dp)
         ) {
-            Spacer(Modifier.height(20.dp))
             CardPreview(state, viewModel)
             Spacer(Modifier.height(20.dp))
             TapNfcInfo {
@@ -48,9 +47,9 @@ fun PaymentScreen(
             ExpiryCvvRow( state, viewModel,)
             Spacer(Modifier.height(20.dp))
             CardHolderInput(state, viewModel)
-            Spacer(Modifier.height(30.dp))
-            AlertSecurity()
             Spacer(Modifier.height(20.dp))
+            AlertSecurity()
+            Spacer(Modifier.height(15.dp))
             PayButton()
         }
         if (state.showNfcSheet) {

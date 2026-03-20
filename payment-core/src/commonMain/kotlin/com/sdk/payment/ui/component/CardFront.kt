@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sdk.payment.ui.model.CardState
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import com.sdk.payment.Res
+import com.sdk.payment.ic_card
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun CardFront(state: CardState) {
     Card(
@@ -33,15 +33,14 @@ fun CardFront(state: CardState) {
                 .background(Color(0xFF0E8BFF))
 
         ) {
-//            Image(
-//                painter = painterResource(
-//                    resource = "drawable/ic_card.png"
-//                ),
-////                painter = painterResource("drawable/ic_card.png"),
-//                contentDescription = null,
-//                modifier = Modifier.fillMaxSize(),
-//                contentScale = ContentScale.Crop,
-//            )
+            Image(
+                painter = painterResource(
+                    resource = Res.drawable.ic_card,
+                ),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+            )
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -68,6 +67,8 @@ fun CardFront(state: CardState) {
         }
     }
 }
+
+
 
 
 

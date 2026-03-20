@@ -26,6 +26,8 @@ kotlin {
             implementation("io.ktor:ktor-client-core:2.3.7")
             implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+//            implementation("org.jetbrains.compose.components:components-resources:1.6.10")
+            implementation(libs.compose.components.resources)
             implementation(project(":payment-core"))
         }
         commonMain.dependencies {
@@ -39,6 +41,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation("io.ktor:ktor-client-core:2.3.7")
             implementation(project(":payment-core"))
+//            implementation("org.jetbrains.compose.components:components-resources:1.6.10")
+
         }
         iosMain.dependencies {
             implementation(libs.kotlin.test)
@@ -67,7 +71,7 @@ android {
     }
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
     }
     compileOptions {

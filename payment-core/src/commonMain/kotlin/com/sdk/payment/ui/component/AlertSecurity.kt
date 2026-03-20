@@ -16,9 +16,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AlertSecurity() {
     Card(
-        colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFF5F5F5)
-        )
+        colors = CardDefaults.cardColors(contentColor = Color(0xFFF5F5F5))
     ) {
         Column(
             Modifier.padding(16.dp)

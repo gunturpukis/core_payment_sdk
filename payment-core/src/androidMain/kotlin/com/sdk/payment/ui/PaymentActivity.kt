@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sdk.payment.ui
 
 import android.app.Dialog

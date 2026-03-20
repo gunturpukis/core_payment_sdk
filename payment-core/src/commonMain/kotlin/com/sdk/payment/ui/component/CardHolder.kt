@@ -1,10 +1,14 @@
 package com.sdk.payment.ui.component
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.sdk.payment.ui.model.CardState
 import com.sdk.payment.ui.viewmodel.PaymentViewModel
 
@@ -13,10 +17,15 @@ fun CardHolderInput(
     state: CardState,
     vm: PaymentViewModel
 ) {
+    Text(
+        "Card Holder Name",
+        fontWeight = FontWeight.Normal
+    )
+    Spacer(Modifier.height(5.dp))
     OutlinedTextField(
         value = state.cardHolder,
         onValueChange = vm::updateHolder,
-        label = { Text("Card Holder Name") },
+//        label = { Text("Card Holder Name") },
         modifier = Modifier.fillMaxWidth()
     )
 }

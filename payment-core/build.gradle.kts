@@ -67,9 +67,21 @@ kotlin {
         }
     }
 
+    cocoapods {
+        summary = "Payment Core SDK"
+        homepage = "https://example.com"
+        ios.deploymentTarget = "14.0"
+        framework {
+            baseName = "PaymentCoreSDK"
+            isStatic = true
+        }
+//        pod("lottie-ios", "~> 4.3.0")
+        podfile = project.file("../iosApp/Podfile")
+        name = "PaymentCoreSDK"
+    }
+
     sourceSets {
         val commonMain by getting {
-//            resources.srcDir("src/commonMain/resources")
             dependencies {
                 val ktorVersion = "2.3.12"
 
@@ -81,7 +93,6 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
                 implementation("org.kotlincrypto.hash:sha2:0.5.1")
                 implementation("io.github.aakira:napier:2.6.1")
-
                 implementation(libs.compose.runtime)
                 implementation(libs.compose.foundation)
                 implementation(libs.compose.material3)
@@ -91,7 +102,6 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
                 implementation("org.jetbrains.compose.material:material-icons-extended:1.6.10")
-//                implementation("org.jetbrains.compose.components:components-resources:1.6.10")
             }
         }
 
@@ -102,6 +112,7 @@ kotlin {
                 implementation("com.airbnb.android:lottie:6.4.0")
                 implementation("com.airbnb.android:lottie-compose:6.4.0")
                 implementation("io.github.aakira:napier:2.6.1")
+                implementation("com.airbnb.android:lottie-compose:6.4.0")
                 implementation(libs.compose.runtime)
                 implementation(libs.compose.foundation)
                 implementation(libs.compose.material3)
@@ -111,7 +122,6 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
                 implementation("org.jetbrains.compose.material:material-icons-extended:1.6.10")
-//                implementation("org.jetbrains.compose.components:components-resources:1.6.10")
             }
         }
         val iosX64Main by getting

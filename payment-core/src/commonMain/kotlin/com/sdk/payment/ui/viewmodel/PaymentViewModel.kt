@@ -26,6 +26,9 @@ class PaymentViewModel {
     fun showNfcSheet(show: Boolean) {
         state = state.copy(showNfcSheet = show)
     }
+    fun showCvvInfo(show: Boolean) {
+        state = state.copy(showCvvInfo = show)
+    }
     fun autofillFromNfc(
         number: String,
         expiry: String

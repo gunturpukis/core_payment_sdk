@@ -7,5 +7,6 @@ data class CardState(
     val cvv: String = "",
     val cardBrand: String = "",
     val isCardFlipped: Boolean = false,
-    val showNfcSheet: Boolean = false
+    val showNfcSheet: Boolean = false,
+    val showCvvInfo: Boolean = false
 )

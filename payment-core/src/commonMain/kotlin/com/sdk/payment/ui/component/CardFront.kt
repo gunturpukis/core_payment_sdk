@@ -3,7 +3,10 @@ package com.sdk.payment.ui.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -44,25 +47,47 @@ fun CardFront(state: CardState) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(24.dp)
+                    .padding(20.dp)
             ) {
                 Text(
                     state.cardNumber.ifEmpty { "**** **** **** ****" },
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center).padding(top = 40.dp)
                 )
-                Text(
-                    state.cardHolder.ifEmpty { "John Doe" },
-                    color = Color.White,
+                Column(
                     modifier = Modifier.align(Alignment.BottomStart)
-                )
-                Text(
-                    state.expiry.ifEmpty { "**/**" },
-                    color = Color.White,
+                ) {
+                    Text(
+                         "Card Holder Name",
+                        fontSize = 11.sp,
+                        color = Color.White,
+                        )
+                    Spacer(Modifier.height(5.dp))
+                    Text(
+                        state.cardHolder.ifEmpty { "John Doe" },
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+
+                    )
+                }
+                Column (
                     modifier = Modifier.align(Alignment.BottomCenter)
-                )
+                ){
+                    Text(
+                        "Expired Date",
+                        fontSize = 11.sp,
+                        color = Color.White,
+                    )
+                    Spacer(Modifier.height(5.dp))
+                    Text(
+                        state.expiry.ifEmpty { "**/**" },
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                        )
+                }
+
             }
         }
     }

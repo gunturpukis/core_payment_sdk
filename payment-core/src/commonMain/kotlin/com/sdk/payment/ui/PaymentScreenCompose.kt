@@ -17,8 +17,8 @@ import com.sdk.payment.ui.component.CardHolderInput
 import com.sdk.payment.ui.component.CardLogos
 import com.sdk.payment.ui.component.CardNumberInput
 import com.sdk.payment.ui.component.CardPreview
+import com.sdk.payment.ui.component.CvvInfoDialog
 import com.sdk.payment.ui.component.ExpiryCvvRow
-import com.sdk.payment.ui.component.NfcScanBottomSheet
 import com.sdk.payment.ui.component.PayButton
 import com.sdk.payment.ui.component.TapNfcInfo
 import com.sdk.payment.ui.viewmodel.PaymentViewModel
@@ -34,20 +34,21 @@ fun PaymentScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(20.dp)
         ) {
+            Spacer(Modifier.height(20.dp))
             CardPreview(state, viewModel)
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(20.dp))
             TapNfcInfo {
                 viewModel.showNfcSheet(true)
             }
-            Spacer(Modifier.height(16.dp))
-            CardNumberInput(state, viewModel)
-            Spacer(Modifier.height(12.dp))
-            CardLogos(state)
-            Spacer(Modifier.height(16.dp))
-            ExpiryCvvRow(state, viewModel)
-            Spacer(Modifier.height(16.dp))
-            CardHolderInput(state, viewModel)
             Spacer(Modifier.height(20.dp))
+            CardNumberInput(state, viewModel)
+            Spacer(Modifier.height(10.dp))
+            CardLogos(state)
+            Spacer(Modifier.height(10.dp))
+            ExpiryCvvRow( state, viewModel,)
+            Spacer(Modifier.height(20.dp))
+            CardHolderInput(state, viewModel)
+            Spacer(Modifier.height(30.dp))
             AlertSecurity()
             Spacer(Modifier.height(20.dp))
             PayButton()
@@ -55,6 +56,11 @@ fun PaymentScreen(
         if (state.showNfcSheet) {
             BottomSheetNfcScan {
                 viewModel.showNfcSheet(false)
+            }
+        }
+        if (state.showCvvInfo) {
+            CvvInfoDialog {
+                viewModel.showCvvInfo(false)
             }
         }
     }

@@ -1,5 +1,5 @@
 Pod::Spec.new do |spec|
-    spec.name                     = 'payment_core'
+    spec.name                     = 'PaymentCoreSDK'
     spec.version                  = '1.0.0'
     spec.homepage                 = 'https://example.com'
     spec.source                   = { :http=> ''}
@@ -9,7 +9,6 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/PaymentCoreSDK.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '14.0'
-    spec.dependency 'lottie-ios', '~> 4.3.0'
     if !Dir.exist?('build/cocoapods/framework/PaymentCoreSDK.framework') || Dir.empty?('build/cocoapods/framework/PaymentCoreSDK.framework')
         raise "
         Kotlin framework 'PaymentCoreSDK' doesn't exist yet, so a proper Xcode project can't be generated.
@@ -26,7 +25,7 @@ Pod::Spec.new do |spec|
     }
     spec.script_phases = [
         {
-            :name => 'Build payment_core',
+            :name => 'Build PaymentCoreSDK',
             :execution_position => :before_compile,
             :shell_path => '/bin/sh',
             :script => <<-SCRIPT

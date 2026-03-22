@@ -66,7 +66,7 @@ data class CardDetails(
 @Serializable
 data class ItemDetails(
     @SerialName("item_id")
-    val itemId: String,
+    val itemId: String?,
     val name: String? = null,
     val amount: Int,
     val qty: Int,

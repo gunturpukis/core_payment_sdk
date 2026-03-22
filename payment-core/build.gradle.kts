@@ -83,12 +83,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                val ktorVersion = "2.3.12"
-
+                val ktorVersion = "2.3.7"
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-auth:$ktorVersion")
+//                implementation("io.ktor:ktor-client-darwin:2.3.12")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
                 implementation("org.kotlincrypto.hash:sha2:0.5.1")
@@ -102,12 +102,13 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
                 implementation("org.jetbrains.compose.material:material-icons-extended:1.6.10")
+                implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10")
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-okhttp:2.3.7")
+                implementation("io.ktor:ktor-client-okhttp:2.3.12")
                 implementation("com.google.android.material:material:1.11.0")
                 implementation("com.airbnb.android:lottie:6.4.0")
                 implementation("com.airbnb.android:lottie-compose:6.4.0")
@@ -130,6 +131,10 @@ kotlin {
 
         val iosMain by creating {
             dependsOn(commonMain)
+            dependencies {
+                // ✅ TAMBAHKAN INI agar iOS punya engine network-nya sendiri
+                implementation("io.ktor:ktor-client-darwin:2.3.7")
+            }
         }
         iosX64Main.dependsOn(iosMain)
         iosArm64Main.dependsOn(iosMain)

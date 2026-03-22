@@ -1,5 +1,7 @@
 package com.sdk.payment.ui.component
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,19 +23,24 @@ fun CardNumberInput(
     state: CardState,
     vm: PaymentViewModel
 ) {
-    Text(
-        "Card Number",
-        fontWeight = FontWeight.Normal
-    )
-    Spacer(Modifier.height(5.dp))
-    OutlinedTextField(
-        value = state.cardNumber,
-        shape = OutlinedTextFieldDefaults.shape,
-        onValueChange = vm::updateCardNumber,
-//        label = { Text("Card Number") },
-        modifier = Modifier.fillMaxWidth(),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
+    Column(
+        modifier = Modifier.clickable {
+            vm.flipCard(state.isCardFlipped)
+        }
+    ) {
+        Text(
+            "Card Number",
+            fontWeight = FontWeight.Normal
         )
-    )
+        Spacer(Modifier.height(5.dp))
+        OutlinedTextField(
+            value = state.cardNumber,
+            onValueChange = vm::updateCardNumber,
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            )
+        )
+    }
+
 }

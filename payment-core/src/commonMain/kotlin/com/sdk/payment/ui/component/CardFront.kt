@@ -50,7 +50,7 @@ fun CardFront(state: CardState) {
                     .padding(20.dp)
             ) {
                 Text(
-                    state.cardNumber.ifEmpty { "**** **** **** ****" },
+                    state.cardNumberFormatted.ifEmpty { "**** **** **** ****" },
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,

@@ -6,6 +6,6 @@ import com.sdk.payment.ui.PaymentScreen
 
 fun MainViewController(): UIViewController {
     return ComposeUIViewController {
-        PaymentScreen()
+//        PaymentScreen()
     }
 }

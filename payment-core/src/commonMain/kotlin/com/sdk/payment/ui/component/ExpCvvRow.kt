@@ -37,7 +37,7 @@ fun ExpiryCvvRow(
             Spacer(Modifier.height(5.dp))
             OutlinedTextField(
                 value = state.expiry,
-                onValueChange = vm::updateExpiry,
+                onValueChange = vm::onExpiryDateChange,
             )
         }
             Spacer(Modifier.width(12.dp))

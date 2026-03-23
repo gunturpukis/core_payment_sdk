@@ -1,0 +1,16 @@
+PODS:
+  - PaymentGatewaySDK (1.0.0)
+
+DEPENDENCIES:
+  - PaymentGatewaySDK (from `../payment-core`)
+
+EXTERNAL SOURCES:
+  PaymentGatewaySDK:
+    :path: "../payment-core"
+
+SPEC CHECKSUMS:
+  PaymentGatewaySDK: 6322264007b01f6bbadf13d8444033b96e44a3be
+
+PODFILE CHECKSUM: 78428755b0dc2406ab4517f13b454af23cdb6a6c
+
+COCOAPODS: 1.16.2

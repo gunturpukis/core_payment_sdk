@@ -1,0 +1,8 @@
+framework module "PaymentGatewaySDK" {
+    umbrella header "PaymentGatewaySDK.h"
+
+    export *
+    module * { export * }
+
+    use Foundation
+}

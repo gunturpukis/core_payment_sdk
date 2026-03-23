@@ -40,7 +40,7 @@ fun PaymentScreen(
     token: String,
     jsonData: String,
 ) {
-    val viewModel = remember {
+    val viewModel = remember(token, jsonData) {
         PaymentViewModel(token, jsonData)
     }
     val state = viewModel.state
@@ -58,7 +58,7 @@ fun PaymentScreen(
             Spacer(Modifier.height(20.dp))
             CardNumberInput(state, viewModel)
             Spacer(Modifier.height(10.dp))
-            CardLogos(viewModel.state)
+            CardLogos(state)
             Spacer(Modifier.height(10.dp))
             ExpiryCvvRow( state, viewModel,)
             Spacer(Modifier.height(20.dp))

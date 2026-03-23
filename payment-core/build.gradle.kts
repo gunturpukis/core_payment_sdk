@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.cocoapods
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {

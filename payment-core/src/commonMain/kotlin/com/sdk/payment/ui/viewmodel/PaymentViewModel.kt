@@ -30,7 +30,12 @@ class PaymentViewModel(
         println("Json: $jsonData")
     }
     val credToken = token
-    val decodedString = credToken.decodeBase64String()
+    val decodedString = try {
+        credToken.decodeBase64String()
+    }catch (e: Exception){
+        println("DECODE ERROR: ${e.message}")
+        ""
+    }
     val parts = decodedString.split(":")
     val merchantId = parts.getOrNull(0) ?: ""
     val secretUnbound = parts.getOrNull(1) ?: ""
@@ -241,22 +246,6 @@ class PaymentViewModel(
             expiry = expiry
         )
     }
-
-//    private fun updateCardTypeIcons(cardType: String) {
-//        val cardViewMappings = listOf(
-//            binding.ivvisa to "VISA",
-//            binding.ivmastercard to "MASTERCARD",
-//            binding.ivamex to "AMEX",
-//            binding.ivjcb to "JCB",
-//            binding.ivunion to "UNIONPAY"
-//        )
-//
-//        cardViewMappings.forEach { (view, type) ->
-//            val isActive = cardType.equals(type, ignoreCase = true)
-//            view.alpha = if (isActive) 1.0f else 0.21f
-//            view.imageAlpha = if (isActive) 255 else (255 * 0.5).toInt()
-//        }
-//    }
 //    private fun updateValidationErrors(state: PaymentUiState) {
 //        updateFieldError(
 //            binding.tilCardNumber,

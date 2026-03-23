@@ -1,12 +1,18 @@
 package com.example.corepaymentsdk.platform
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import com.sdk.payment.domain.model.BillingAddres
 import com.sdk.payment.domain.model.CardDetails
 import com.sdk.payment.domain.model.CustomerDetails
@@ -15,13 +21,12 @@ import com.sdk.payment.domain.model.PaymentDetails
 import com.sdk.payment.domain.model.PaymentOptions
 import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.domain.model.ShippingAddres
+import com.sdk.payment.ui.PaymentScreen
 import com.sdk.payment.ui.route.PaymentSDKNavHost
 import io.ktor.util.encodeBase64
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-
-// Di dalam App Demo (misal: Screen di MainActivity)
 @Composable
 fun DemoAppScreen() {
     var showSDK by remember { mutableStateOf(false) }
@@ -94,14 +99,33 @@ fun DemoAppScreen() {
     val credentiialToken = credential.toByteArray().encodeBase64()
     val jsonString = Json.encodeToString(paymentRequest)
 
-    if (showSDK) {
-        PaymentSDKNavHost(
-            startToken = credentiialToken,
-            startData = jsonString,
-        )
-    } else {
-        Button(onClick = { showSDK = true }) {
-            Text("Bayar Sekarang (Open SDK)")
+
+    Box(
+        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+    ) {
+//        if (showSDK) {
+//            PaymentSDKNavHost(
+//                startToken = credentiialToken,
+//                startData = jsonString,
+//            )
+//        } else {
+//            Button(onClick = { showSDK = true }) {
+//                Text("Bayar Sekarang (Open SDK)")
+//            }
+//        }
+        MaterialTheme { // Tambahkan pembungkus Theme
+            Surface(modifier = Modifier.fillMaxSize()) {
+//                    PaymentSDKNavHost(
+//                        startToken = credentialData.first,
+//                        startData = credentialData.second,
+//                    )
+                PaymentScreen(
+                    token = credentiialToken,
+                    jsonData = jsonString,
+                )
+
+            }
         }
     }
+
 }

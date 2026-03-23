@@ -16,14 +16,13 @@ fun PaymentSDKNavHost(
     val navController = rememberNavController()
 
     NavHost(
-        navController = navController,
-        startDestination = PaymentRoute(startToken, startData)
+       navController = navController,
+        startDestination = "payment"
     ) {
-        composable<PaymentRoute> { backStackEntry ->
-            val args = backStackEntry.toRoute<PaymentRoute>()
+        composable("payment") {
             PaymentScreen(
-                token = args.credentialToken,
-                jsonData = args.paymentData,
+                token = startToken,
+                jsonData = startData,
             )
         }
     }

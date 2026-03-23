@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -34,8 +35,8 @@ fun TapNfcInfo(
 ) {
     Card(
         colors = CardDefaults.cardColors(Color(0xFFFFFFFF)),
-        elevation = CardDefaults.elevatedCardElevation(10.dp),
-        modifier = Modifier.fillMaxSize().clickable { onClick() }
+        elevation = CardDefaults.elevatedCardElevation(5.dp),
+        modifier = Modifier.fillMaxWidth().clickable { onClick() }
     ) {
         Row (
             Modifier.padding(13.dp),
@@ -46,12 +47,12 @@ fun TapNfcInfo(
                     resource = Res.drawable.ic_tapcard,
                 ),
                 contentDescription = null,
-                modifier = Modifier.size(width = 40.dp, height = 40.dp),
+                modifier = Modifier.size(width = 35.dp, height = 35.dp),
                 contentScale = ContentScale.Crop,
             )
             Spacer(Modifier.width(15.dp))
             Text(
-                fontSize = 11.sp,
+                fontSize = 10.sp,
                  text = "Just tap the card to your device, and the card information will be filled in automatically."
             )
         }

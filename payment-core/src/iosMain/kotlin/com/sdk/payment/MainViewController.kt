@@ -36,113 +36,16 @@ import platform.Foundation.base64EncodedStringWithOptions
 import platform.Foundation.create
 import platform.Foundation.dataUsingEncoding
 
-fun MainViewController(): UIViewController = ComposeUIViewController {
-    var showSDK by remember { mutableStateOf(false) }
-
-    val paymentRequest = remember {
-        PaymentRequest(
-            externalId = "14rRAb1eiS",
-            orderId = "OKo2H5B8gm",
-            currency = "IDR",
-            paymentMethod = "card",
-            paymentChannel = "BRICC",
-            paymentMode = "CLOSE",
-            paymentDetails = PaymentDetails(
-                amount = 10000,
-                transactionDescription = "Clothes",
-                isCustomerPayingFee = false,
-                expiredTime = ""
-            ),
-            customerDetails = CustomerDetails(
-                email = "solutions@ifortepay.id",
-                fullName = "Testing",
-                phone = "08970799128",
-                ipAddress = "182.30.91.67"
-            ),
-            cardDetails = CardDetails(
-                cardNumber = "",
-                cardExpiredMonth = "",
-                cardExpiredYear = "",
-                cardCvn = "",
-                cardHolderName = ""
-            ),
-            returnUrl = "https://superapp-stg.ifortepay.id/",
-            callbackUrl = "https://mcpid.free.beeceptor.com",
-            itemDetails = listOf(
-                ItemDetails(
-                    itemId = "Artikel 1",
-                    name = "shirt",
-                    amount = 10000,
-                    qty = 1,
-                    description = "3131"
-                )
-            ),
-            billingAddress = BillingAddres(
-                fullName = "CC Test",
-                phone = "0893456789",
-                address = "Kosan Hj Hasan",
-                city = "Tangerang",
-                postalCode = "19127",
-                country = "ID"
-            ),
-            shippingAddress = ShippingAddres(
-                fullName = "MCP",
-                phone = "0893456789",
-                address = "Bandara Mas",
-                city = "Malang",
-                postalCode = "10210",
-                country = "ID"
-            ),
-            paymentOptions = PaymentOptions(
-                useRewards = true,
-                campaign_code = "002",
-                tenor = "0"
-            ),
-            additionalData = "",
-            source = "payment_page",
-        )
-    }
-
-    val credentialData = remember {
-        val merchantId = "MC2026016183"
-        val secretUnbound = "0x85e19e9ff024614509"
-        val hashKey = "U07P9kpkmYeUDLiqZZVymciPnr3QdN/tL+XBL3Adkck"
-
-        val credential = "${merchantId}:${secretUnbound}:${hashKey}"
-        val token = NSString.create(string = credential)
-            .dataUsingEncoding(NSUTF8StringEncoding)
-            ?.base64EncodedStringWithOptions(0u)
-//        val token = credential.encodeBase64()
-//        val json = Json.encodeToString(paymentRequest)
-        val json = Json {
-            encodeDefaults = false
-            explicitNulls = false
-        }.encodeToString(paymentRequest)
-
-        Pair(token, json)
-    }
-
-    Box(
-        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-    ) {
-        if (showSDK) {
-            MaterialTheme { // Tambahkan pembungkus Theme
-                Surface(modifier = Modifier.fillMaxSize()) {
-//                    PaymentSDKNavHost(
-//                        startToken = credentialData.first,
-//                        startData = credentialData.second,
-//                    )
-                    PaymentScreen(
-                        token = credentialData.first.toString(),
-                        jsonData = credentialData.second,
-                    )
-
-                }
-            }
-        } else {
-            Button(onClick = { showSDK = true }) {
-                Text("Bayar Sekarang (Open SDK iOS)")
-            }
+fun MainViewController(
+    token: String,
+    json: String
+): UIViewController = ComposeUIViewController {
+    MaterialTheme {
+        Surface {
+            PaymentScreen(
+                token = token,
+                jsonData = json
+            )
         }
     }
 }

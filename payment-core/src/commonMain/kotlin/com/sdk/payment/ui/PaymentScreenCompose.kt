@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -51,22 +52,25 @@ fun PaymentScreen(
                 .padding(20.dp)
         ) {
             CardPreview(state, viewModel)
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(10.dp))
             TapNfcInfo {
                 viewModel.showNfcSheet(true)
             }
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(10.dp))
             CardNumberInput(state, viewModel)
             Spacer(Modifier.height(10.dp))
             CardLogos(state)
             Spacer(Modifier.height(10.dp))
             ExpiryCvvRow( state, viewModel,)
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(10.dp))
             CardHolderInput(state, viewModel)
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(10.dp))
             AlertSecurity()
-            Spacer(Modifier.height(15.dp))
-            PayButton()
+            Spacer(Modifier.height(10.dp))
+            val scope = rememberCoroutineScope()
+            PayButton(
+                onClick = {viewModel.onPayClicked (scope)}
+            )
         }
         if (state.showNfcSheet) {
             BottomSheetNfcScan {

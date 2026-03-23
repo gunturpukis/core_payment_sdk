@@ -54,7 +54,7 @@ fun CardFront(state: CardState) {
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    modifier = Modifier.align(Alignment.Center).padding(top = 40.dp)
+                    modifier = Modifier.align(Alignment.Center).padding(top = 20.dp)
                 )
                 Column(
                     modifier = Modifier.align(Alignment.BottomStart)
@@ -64,7 +64,7 @@ fun CardFront(state: CardState) {
                         fontSize = 11.sp,
                         color = Color.White,
                         )
-                    Spacer(Modifier.height(5.dp))
+                    Spacer(Modifier.height(3.dp))
                     Text(
                         state.cardHolder.ifEmpty { "John Doe" },
                         color = Color.White,
@@ -80,7 +80,7 @@ fun CardFront(state: CardState) {
                         fontSize = 11.sp,
                         color = Color.White,
                     )
-                    Spacer(Modifier.height(5.dp))
+                    Spacer(Modifier.height(3.dp))
                     Text(
                         state.expiry.ifEmpty { "**/**" },
                         color = Color.White,

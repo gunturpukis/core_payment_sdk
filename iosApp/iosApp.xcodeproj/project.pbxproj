@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01A5BCA88BBE7211F47F477C /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EE5531B555FEBB34BDC6DBA /* Pods_iosApp.framework */; };
-		5AB674E42F6DECB4006763C4 /* PaymentGatewaySDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB674E22F6DECA4006763C4 /* PaymentGatewaySDK.xcframework */; };
-		5AB674E52F6DECB4006763C4 /* PaymentGatewaySDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB674E22F6DECA4006763C4 /* PaymentGatewaySDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2EF51187C3881ED98BBD40BE /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1E4F8369F3C1E6B02AA02D7 /* Pods_iosApp.framework */; };
+		5AF2FBB82F71E59800227780 /* PaymentGatewaySDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF2FBB62F71E59000227780 /* PaymentGatewaySDK.xcframework */; };
+		5AF2FBB92F71E59800227780 /* PaymentGatewaySDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF2FBB62F71E59000227780 /* PaymentGatewaySDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -19,7 +19,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5AB674E52F6DECB4006763C4 /* PaymentGatewaySDK.xcframework in Embed Frameworks */,
+				5AF2FBB92F71E59800227780 /* PaymentGatewaySDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -27,10 +27,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0EE5531B555FEBB34BDC6DBA /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5AB674E22F6DECA4006763C4 /* PaymentGatewaySDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PaymentGatewaySDK.xcframework; sourceTree = "<group>"; };
-		AA8F94EC13EA76E00ED5D9B8 /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
-		B232D22B9674F245D5AD6249 /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
+		5AF2FBB62F71E59000227780 /* PaymentGatewaySDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PaymentGatewaySDK.xcframework; sourceTree = "<group>"; };
+		6BF5B37F422B169F52786318 /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
+		BACFC386B0941D261461D40A /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
+		D1E4F8369F3C1E6B02AA02D7 /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA6FFDCC4967FA3EED6224B /* PaymentCoreSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaymentCoreSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -55,6 +55,8 @@
 		};
 		8C017150E5240D0761503F2B /* Configuration */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = Configuration;
 			sourceTree = "<group>";
 		};
@@ -65,8 +67,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5AB674E42F6DECB4006763C4 /* PaymentGatewaySDK.xcframework in Frameworks */,
-				01A5BCA88BBE7211F47F477C /* Pods_iosApp.framework in Frameworks */,
+				5AF2FBB82F71E59800227780 /* PaymentGatewaySDK.xcframework in Frameworks */,
+				2EF51187C3881ED98BBD40BE /* Pods_iosApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,8 +78,8 @@
 		5AA3B7162F67709C007144C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5AB674E22F6DECA4006763C4 /* PaymentGatewaySDK.xcframework */,
-				0EE5531B555FEBB34BDC6DBA /* Pods_iosApp.framework */,
+				5AF2FBB62F71E59000227780 /* PaymentGatewaySDK.xcframework */,
+				D1E4F8369F3C1E6B02AA02D7 /* Pods_iosApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -85,8 +87,8 @@
 		84B29CCC3898759DAF2F2F75 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AA8F94EC13EA76E00ED5D9B8 /* Pods-iosApp.debug.xcconfig */,
-				B232D22B9674F245D5AD6249 /* Pods-iosApp.release.xcconfig */,
+				6BF5B37F422B169F52786318 /* Pods-iosApp.debug.xcconfig */,
+				BACFC386B0941D261461D40A /* Pods-iosApp.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -117,14 +119,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ED8A6F3601ADAE7D06AB4084 /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
-				8C75A5DAC7C73996F8C86B51 /* [CP] Check Pods Manifest.lock */,
+				EFA8CA76931D475D1575A020 /* [CP] Check Pods Manifest.lock */,
 				7FCC9C80A73F2864B15A19BF /* Compile Kotlin */,
 				9A78A13CFA192796E0E865CF /* Compile Kotlin Framework */,
 				F0B491ACBDABC52669632BF7 /* Sources */,
 				E233B1385FFA2BA3B137F079 /* Frameworks */,
 				D3288AF13B80F81D959C1B57 /* Resources */,
 				5A2BAB0D2F6918A100207B59 /* Embed Frameworks */,
-				4435DF91AC521BA280CC5D78 /* [CP] Copy Pods Resources */,
+				9407ABE5AB4B6CA94EF1BC33 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -183,29 +185,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4435DF91AC521BA280CC5D78 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7FCC9C80A73F2864B15A19BF /* Compile Kotlin */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 12;
 			files = (
 			);
@@ -218,7 +200,43 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n\n";
 		};
-		8C75A5DAC7C73996F8C86B51 /* [CP] Check Pods Manifest.lock */ = {
+		9407ABE5AB4B6CA94EF1BC33 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9A78A13CFA192796E0E865CF /* Compile Kotlin Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Compile Kotlin Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n\n";
+		};
+		EFA8CA76931D475D1575A020 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -240,24 +258,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9A78A13CFA192796E0E865CF /* Compile Kotlin Framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Compile Kotlin Framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -273,7 +273,7 @@
 /* Begin XCBuildConfiguration section */
 		658D30C28BEF3F1C9B821FA1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA8F94EC13EA76E00ED5D9B8 /* Pods-iosApp.debug.xcconfig */;
+			baseConfigurationReference = 6BF5B37F422B169F52786318 /* Pods-iosApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -301,7 +301,7 @@
 		};
 		A6DBA6BE9C69167947461E20 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B232D22B9674F245D5AD6249 /* Pods-iosApp.release.xcconfig */;
+			baseConfigurationReference = BACFC386B0941D261461D40A /* Pods-iosApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

@@ -12,9 +12,11 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sdk.payment.ui.model.CardState
 import com.sdk.payment.ui.viewmodel.PaymentViewModel
 
@@ -23,14 +25,17 @@ fun CardNumberInput(
     state: CardState,
     vm: PaymentViewModel
 ) {
+    val isError = state.cardNumberError != null
+
     Column(
         modifier = Modifier.clickable {
             vm.flipCard(state.isCardFlipped)
         }
     ) {
         Text(
-            "Card Number",
-            fontWeight = FontWeight.Normal
+            text = "Card Number",
+            fontWeight = FontWeight.Normal,
+            color = if (isError) Color.Red else Color.DarkGray
         )
         Spacer(Modifier.height(5.dp))
         OutlinedTextField(
@@ -39,8 +44,16 @@ fun CardNumberInput(
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
-            )
+            ),
+            isError = isError
         )
+        if (isError) {
+            Spacer(Modifier.height(4.dp))
+            Text(
+                fontSize = 10.sp,
+                text = state.cardNumberError ?: "",
+                color = Color.Red
+            )
+        }
     }
-
 }

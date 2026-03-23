@@ -3,6 +3,7 @@ package com.sdk.payment.ui.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.sdk.payment.PaymentGateway
 import com.sdk.payment.config.PaymentConfig
@@ -177,38 +178,6 @@ class PaymentViewModel(
                 state.cvvError == null &&
                 state.cardHolderError == null
     }
-
-    fun processPayment(coroutineScope: CoroutineScope) {
-    coroutineScope.launch {
-        try {
-            val validatedState = validateInput(state)
-            if (!isAllValid(state)) {
-                state = state.copy(errorMessage = "Please fix the errors above")
-                return@launch
-            }
-            state = state.copy(isLoading = true, errorMessage = null)
-            val expiryParts = state.expiry.split("/")
-            val month = expiryParts.getOrNull(0)?.padStart(2, '0') ?: "00"
-            val year = "20" + (expiryParts.getOrNull(1) ?: "00")
-            val paymentRequest = buildPaymentRequest(validatedState, month, year)
-
-            val result = gateway.charge(paymentRequest)
-            state = state.copy(isLoading = false, paymentResponse = result)
-        } catch (e: Exception) {
-            state = state.copy(isLoading = false, errorMessage = e.message)
-        }
-    }
-}
-
-    fun clearErrors() {
-        state = state.copy(
-            cardNumberError = null,
-            expiryDateError = null,
-            cvvError = null,
-            cardHolderError = null,
-            errorMessage = null
-        )
-    }
     private fun buildPaymentRequest(
         state: CardState,
         month: String,
@@ -224,10 +193,31 @@ class PaymentViewModel(
             )
         )
     }
-    fun reset() {
-        state = CardState()
-        _isLoading.value = false
+    fun processPayment(coroutineScope: CoroutineScope) {
+    coroutineScope.launch {
+        try {
+            val validatedState = validateInput(state)
+            if (!isAllValid(state)) {
+                state = state.copy(errorMessage = "Please fix the errors above")
+                return@launch
+            }
+            state = state.copy(isLoading = true, errorMessage = null)
+            val expiryParts = state.expiry.split("/")
+            val month = expiryParts.getOrNull(0)?.padStart(2, '0') ?: "00"
+            val year = "20" + (expiryParts.getOrNull(1) ?: "00")
+            val paymentRequest = buildPaymentRequest(validatedState, month, year)
+
+            val result = gateway.charge(paymentRequest)
+            println("Result: $result + Linknya ada atau ga : ${result.data?.link.toString()}")
+            reset()
+            state = state.copy(isLoading = false, paymentResponse = result)
+        } catch (e: Exception) {
+            state = state.copy(isLoading = false, errorMessage = e.message)
+        }
     }
+}
+
+
     fun flipCard(showBack: Boolean) {
         state = state.copy(isCardFlipped = showBack)
     }
@@ -246,44 +236,32 @@ class PaymentViewModel(
             expiry = expiry
         )
     }
-//    private fun updateValidationErrors(state: PaymentUiState) {
-//        updateFieldError(
-//            binding.tilCardNumber,
-//            binding.lblCardNumber,
-//            state.cardNumberError
-//        )
-//        updateFieldError(
-//            binding.tilCardName2,
-//            binding.lblCardNumber2,
-//            state.cardHolderError
-//        )
-//        updateFieldError(
-//            binding.tilExpDate,
-//            binding.lblExpDate,
-//            state.expiryDateError
-//        )
-//        updateFieldErrorWithIcon(
-//            binding.tilCvv,
-//            binding.lblCvv,
-//            binding.btnInfoCvv,
-//            state.cvvError
-//        )
-//    }
-//    private fun updateFieldError(
-//        textInputLayout: TextInputLayout,
-//        label: TextView,
-//        error: String?
-//    ) {
-//        textInputLayout.error = error
-//        label.setTextColor(if (error != null) Color.RED else Color.DKGRAY)
-//    }
-//    private fun updateFieldErrorWithIcon(
-//        textInputLayout: TextInputLayout,
-//        label: TextView,
-//        iconButton: ImageView,
-//        error: String?
-//    ) {
-//        updateFieldError(textInputLayout, label, error)
-//        iconButton.setColorFilter(if (error != null) Color.RED else Color.DKGRAY)
-//    }
+    fun reset() {
+        state = CardState()
+        _isLoading.value = false
+    }
+    fun onPayClicked(coroutineScope: CoroutineScope) {
+        val isValid = validateAll()
+        if (!isValid) {
+            state = state.copy(errorMessage = "Please fix the errors above")
+            return
+        }
+        processPayment(coroutineScope)
+    }
+    fun validateAll(): Boolean {
+        val cardNumberError = validateCardNumber(state.cardNumber)
+        val holderError = validateCardHolder(state.cardHolder)
+        val expiryError = validateExpiryDate(state.expiry)
+        val cvvError = validateCvv(state.cvv)
+            state = state.copy(
+                cardNumberError = cardNumberError,
+                cardHolderError = holderError,
+                expiryDateError = expiryError,
+                cvvError = cvvError
+        )
+        return cardNumberError == null &&
+                holderError == null &&
+                expiryError == null &&
+                cvvError == null
+    }
 }

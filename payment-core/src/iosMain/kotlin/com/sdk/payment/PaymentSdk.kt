@@ -14,6 +14,9 @@ class PaymentSDK {
 
     @ObjCName("createViewController")
     fun createViewController(): UIViewController {
-        return MainViewController()
+        return MainViewController(
+            token = TODO(),
+            json = TODO()
+        )
     }
 }

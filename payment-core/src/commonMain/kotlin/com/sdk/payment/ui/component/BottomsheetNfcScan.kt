@@ -51,7 +51,8 @@ fun BottomSheetNfcScan(
             )
             Spacer(Modifier.height(20.dp))
             Text(
-                modifier = Modifier.padding(horizontal = 17.dp),
+                modifier = Modifier.padding(horizontal = 15.dp),
+                fontSize = 12.sp,
                 text =   "Place your debit/credit card on the back of your phone and hold it for at least 3 seconds. Make sure your card and device support NFC features.",
             )
             Spacer(Modifier.height(24.dp))

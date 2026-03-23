@@ -161,8 +161,8 @@ class BasePaymentViewModel(
                 val paymentRequest = buildPaymentRequest(validatedState, month, year)
 
                 val result = gateway.charge(paymentRequest)
+                println("Result: $result + Linknya ada atau ga : ${result.data?.link.toString()}")
                 _uiState.update {
-                    print("Payment result: ${result.data?.link}")
                     it.copy(
                         isLoading = false,
                         paymentResponse = result,

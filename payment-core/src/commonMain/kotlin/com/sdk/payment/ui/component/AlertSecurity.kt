@@ -38,10 +38,9 @@ fun AlertSecurity() {
                     text = "Your card details are securely protected.",
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(Modifier.height(4.dp))
                 Text(
                     textAlign = TextAlign.Start,
-                    fontSize = 12.sp,
+                    fontSize = 11.sp,
                     text = "We collaborate with banks to ensure the security of your card data. We will not access or misuse your card information."
                 )
             }

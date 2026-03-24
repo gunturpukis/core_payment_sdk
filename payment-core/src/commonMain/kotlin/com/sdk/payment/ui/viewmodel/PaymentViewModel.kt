@@ -9,6 +9,7 @@ import com.sdk.payment.PaymentGateway
 import com.sdk.payment.config.PaymentConfig
 import com.sdk.payment.domain.model.CardDetails
 import com.sdk.payment.domain.model.PaymentRequest
+import com.sdk.payment.domain.model.PaymentResult
 import com.sdk.payment.getHttpEngine
 import com.sdk.payment.presentation.PaymentUiState
 import com.sdk.payment.presentation.detector.CardTypeDetector
@@ -24,12 +25,15 @@ import kotlinx.serialization.json.Json
 
 class PaymentViewModel(
     token: String,
-    private val jsonData: String
+    private val jsonData: String,
+    private val onResultCallback: ((Boolean) -> Unit)? = null
 ) : ViewModel() {
     init {
         println("Token: $token")
         println("Json: $jsonData")
     }
+
+    var onResult: ((Boolean) -> Unit)? = null
     val credToken = token
     val decodedString = try {
         credToken.decodeBase64String()
@@ -60,9 +64,6 @@ class PaymentViewModel(
 
     var state by mutableStateOf(CardState())
         private set
-
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading
     fun updateCardNumber(number: String) {
         val formatted = formatCardNumber(number)
         val clean = number.replace(" ", "")
@@ -193,9 +194,16 @@ class PaymentViewModel(
             )
         )
     }
+
+    fun onSuccessDone() {
+        state = state.copy(showSuccessDialog = false)
+        // 🔥 kirim ke iOS
+        onResult?.invoke(true)
+    }
     fun processPayment(coroutineScope: CoroutineScope) {
     coroutineScope.launch {
         try {
+            state = state.copy(isLoading = true, errorMessage = null)
             val validatedState = validateInput(state)
             if (!isAllValid(state)) {
                 state = state.copy(errorMessage = "Please fix the errors above")
@@ -203,16 +211,18 @@ class PaymentViewModel(
             }
             state = state.copy(isLoading = true, errorMessage = null)
             val expiryParts = state.expiry.split("/")
-            val month = expiryParts.getOrNull(0)?.padStart(2, '0') ?: "00"
+            val month = expiryParts.getOrNull(0)?.padStart(2,   '0') ?: "00"
             val year = "20" + (expiryParts.getOrNull(1) ?: "00")
             val paymentRequest = buildPaymentRequest(validatedState, month, year)
 
             val result = gateway.charge(paymentRequest)
             println("Result: $result + Linknya ada atau ga : ${result.data?.link.toString()}")
             reset()
-            state = state.copy(isLoading = false, paymentResponse = result)
+            state = state.copy(isLoading = false, showSuccessDialog = true, paymentResponse = result)
+//            onResult?.invoke(true)
         } catch (e: Exception) {
-            state = state.copy(isLoading = false, errorMessage = e.message)
+            state = state.copy(isLoading = false, showErrorDialog = true, errorMessage = e.message)
+//            onResult?.invoke(false)
         }
     }
 }
@@ -238,9 +248,11 @@ class PaymentViewModel(
     }
     fun reset() {
         state = CardState()
-        _isLoading.value = false
+//        _isLoading.value = false
+        state = state.copy(isLoading = false)
     }
     fun onPayClicked(coroutineScope: CoroutineScope) {
+        if (state.isLoading) return
         val isValid = validateAll()
         if (!isValid) {
             state = state.copy(errorMessage = "Please fix the errors above")

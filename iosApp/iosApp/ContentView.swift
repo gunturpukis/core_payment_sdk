@@ -84,7 +84,6 @@ private func makePaymentViewController() -> UIViewController {
         ),
         additionalData: "",
     )
-        
 
     let credential = "MC2026016183:0x85e19e9ff024614509:U07P9kpkmYeUDLiqZZVymciPnr3QdN/tL+XBL3Adkck"
     let token = Data(credential.utf8).base64EncodedString()

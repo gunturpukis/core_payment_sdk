@@ -33,6 +33,8 @@ import com.sdk.payment.ui.component.CardPreview
 import com.sdk.payment.ui.component.CvvInfoDialog
 import com.sdk.payment.ui.component.ExpiryCvvRow
 import com.sdk.payment.ui.component.PayButton
+import com.sdk.payment.ui.component.PaymentLoadingDialog
+import com.sdk.payment.ui.component.PaymentSuccessDialog
 import com.sdk.payment.ui.component.TapNfcInfo
 import com.sdk.payment.ui.viewmodel.PaymentViewModel
 
@@ -45,6 +47,7 @@ fun PaymentScreen(
         PaymentViewModel(token, jsonData)
     }
     val state = viewModel.state
+    val scope = rememberCoroutineScope()
     Box {
         Column(
             modifier = Modifier
@@ -60,17 +63,18 @@ fun PaymentScreen(
             CardNumberInput(state, viewModel)
             Spacer(Modifier.height(10.dp))
             CardLogos(state)
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(5.dp))
             ExpiryCvvRow( state, viewModel,)
             Spacer(Modifier.height(10.dp))
             CardHolderInput(state, viewModel)
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(15.dp))
             AlertSecurity()
             Spacer(Modifier.height(10.dp))
-            val scope = rememberCoroutineScope()
             PayButton(
+                isLoading = state.isLoading,
                 onClick = {viewModel.onPayClicked (scope)}
             )
+
         }
         if (state.showNfcSheet) {
             BottomSheetNfcScan {
@@ -82,5 +86,12 @@ fun PaymentScreen(
                 viewModel.showCvvInfo(false)
             }
         }
+        PaymentLoadingDialog(isVisible = state.isLoading)
+        PaymentSuccessDialog(
+            isVisible = state.showSuccessDialog,
+            onDone = {
+                viewModel.onSuccessDone()
+            }
+        )
     }
 }

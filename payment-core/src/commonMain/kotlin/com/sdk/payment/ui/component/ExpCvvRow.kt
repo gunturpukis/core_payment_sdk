@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -35,11 +37,11 @@ fun ExpiryCvvRow(
             modifier = Modifier.weight(1f)
         ) {
             Text(
+                fontSize = 12.sp,
                 text = "Expired Date",
                 fontWeight = FontWeight.Normal,
                 color = if (isExpiryError) Color.Red else Color.DarkGray
             )
-            Spacer(Modifier.height(5.dp))
             OutlinedTextField(
                 value = state.expiry,
                 onValueChange = vm::onExpiryDateChange,
@@ -61,23 +63,21 @@ fun ExpiryCvvRow(
         ) {
             Row {
                 Text(
+                    fontSize = 12.sp,
                     text = "CVN/CVV",
                     fontWeight = FontWeight.Normal,
                     color = if (isCvvError) Color.Red else Color.DarkGray
                 )
-
                 Spacer(Modifier.width(4.dp))
-
                 Icon(
                     imageVector = Icons.Default.Info,
                     contentDescription = null,
                     tint = if (isCvvError) Color.Red else Color(0xFF504F4F),
                     modifier = Modifier
-                        .size(20.dp)
+                        .size(18.dp)
                         .clickable { vm.showCvvInfo(true) }
                 )
             }
-            Spacer(Modifier.height(5.dp))
             OutlinedTextField(
                 value = state.cvv,
                 onValueChange = vm::updateCvv,

@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
@@ -35,12 +36,15 @@ import io.ktor.util.decodeBase64String
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import androidx.core.graphics.drawable.toDrawable
+import com.sdk.payment.ui.component.PaymentSuccessDialog
 import io.github.aakira.napier.Napier
+import kotlinx.coroutines.delay
 
 class PaymentActivity : AppCompatActivity() {
 
     private lateinit var binding: PaymentPageBinding
     private lateinit var viewModel: BasePaymentViewModel
+    private lateinit var uiState: PaymentUiState
     private lateinit var gateway: PaymentGateway
     private lateinit var nfcManager: NfcManager
     private var loadingDialog: Dialog? = null
@@ -61,6 +65,16 @@ class PaymentActivity : AppCompatActivity() {
         setupPayButton()
         setupBottomSheet()
         setupCvvInfoButton()
+
+//        binding.composeView.setContent {
+//            PaymentSuccessDialog(
+//                isVisible = uiState.showSuccessDialog,
+//                onDone = {
+//                    viewModel.onSuccessDone()
+//                }
+//            )
+//        }
+
     }
 
     override fun onPause() {
@@ -143,7 +157,7 @@ class PaymentActivity : AppCompatActivity() {
                 }
                 if (state.paymentResponse != null) {
                   lifecycleScope.launch {
-                        kotlinx.coroutines.delay(1500)
+                        delay(1500)
                         resetPaymentForm()
                     }
                 }

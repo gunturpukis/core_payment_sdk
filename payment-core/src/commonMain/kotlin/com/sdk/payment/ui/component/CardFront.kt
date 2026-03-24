@@ -64,7 +64,6 @@ fun CardFront(state: CardState) {
                         fontSize = 11.sp,
                         color = Color.White,
                         )
-                    Spacer(Modifier.height(3.dp))
                     Text(
                         state.cardHolder.ifEmpty { "John Doe" },
                         color = Color.White,
@@ -80,7 +79,6 @@ fun CardFront(state: CardState) {
                         fontSize = 11.sp,
                         color = Color.White,
                     )
-                    Spacer(Modifier.height(3.dp))
                     Text(
                         state.expiry.ifEmpty { "**/**" },
                         color = Color.White,

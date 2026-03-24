@@ -517,5 +517,11 @@
                 android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>
+    <androidx.compose.ui.platform.ComposeView
+        android:visibility="invisible"
+        android:id="@+id/composeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

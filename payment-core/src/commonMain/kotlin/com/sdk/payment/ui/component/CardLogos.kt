@@ -38,7 +38,7 @@ fun CardLogos(state: CardState) {
         Res.drawable.ic_unionpay to CardType.UNIONPAY
     )
     Row(
-        modifier = Modifier.padding(vertical = 8.dp),
+        modifier = Modifier.padding(vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         logos.forEach { (resId, type) ->

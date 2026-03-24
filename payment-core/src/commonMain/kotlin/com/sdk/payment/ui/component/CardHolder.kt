@@ -23,6 +23,7 @@ fun CardHolderInput(
     val isError = state.cardHolderError != null
     Column {
         Text(
+            fontSize = 12.sp,
             text = "Card Holder Name",
             fontWeight = FontWeight.Normal,
             color = if (isError) Color.Red else Color.DarkGray

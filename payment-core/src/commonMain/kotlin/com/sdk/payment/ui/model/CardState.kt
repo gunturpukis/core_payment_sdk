@@ -21,5 +21,7 @@ data class CardState(
     val cardNumberError: String? = null,
     val cardHolderError: String? = null,
     val expiryDateError: String? = null,
-    val cvvError: String? = null
+    val cvvError: String? = null,
+    var showSuccessDialog: Boolean = false,
+    var showErrorDialog: Boolean = false
 )

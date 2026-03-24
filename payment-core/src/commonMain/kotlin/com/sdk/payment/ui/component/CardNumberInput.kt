@@ -33,11 +33,11 @@ fun CardNumberInput(
         }
     ) {
         Text(
+            fontSize = 12.sp,
             text = "Card Number",
             fontWeight = FontWeight.Normal,
             color = if (isError) Color.Red else Color.DarkGray
         )
-        Spacer(Modifier.height(5.dp))
         OutlinedTextField(
             value = state.cardNumber,
             onValueChange = vm::updateCardNumber,

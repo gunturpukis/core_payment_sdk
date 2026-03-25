@@ -17,8 +17,8 @@ struct ComposeViewController: UIViewControllerRepresentable {
 }
 private func makePaymentViewController() -> UIViewController {
     let paymentRequest = PaymentRequest(
-        externalId: "14rRAb1eiS",
-        orderId: "OKo2H5B8gm",
+        externalId: "1Ktru19Cp7",
+        orderId: "ONxeTcEBE6",
         currency: "IDR",
         source: "payment_page",
         paymentMethod: "card",

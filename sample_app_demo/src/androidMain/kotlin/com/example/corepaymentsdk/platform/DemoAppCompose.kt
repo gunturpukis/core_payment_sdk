@@ -34,33 +34,19 @@ import kotlinx.serialization.json.Json
 fun DemoAppScreen(
 ) {
     val paymentRequest = PaymentRequest(
-        externalId = "14rRAb1eiS",
-        orderId = "OKo2H5B8gm",
+        externalId = "1Ktru19Cp7",
+        orderId = "ONxeTcEBE6",
         currency = "IDR",
+        source = "payment_page",
         paymentMethod = "card",
         paymentChannel = "BRICC",
         paymentMode = "CLOSE",
         paymentDetails = PaymentDetails(
-            amount = 10000,
-            transactionDescription = "Clothes",
-            isCustomerPayingFee = false,
-            expiredTime =""
+        amount = 10000,
+        isCustomerPayingFee = false,
+        transactionDescription = "Clothes",
+        expiredTime = "",
         ),
-        customerDetails = CustomerDetails(
-            email = "solutions@ifortepay.id",
-            fullName = "Testing",
-            phone = "08970799128",
-            ipAddress = "182.30.91.67"
-        ),
-        cardDetails = CardDetails(
-            cardNumber = "",
-            cardExpiredMonth = "",
-            cardExpiredYear = "",
-            cardCvn = "",
-            cardHolderName = ""
-        ),
-        returnUrl = "https://superapp-stg.ifortepay.id/",
-        callbackUrl = "https://mcpid.free.beeceptor.com",
         itemDetails = listOf(
             ItemDetails(
                 itemId = "Artikel 1",
@@ -68,32 +54,46 @@ fun DemoAppScreen(
                 amount = 10000,
                 qty = 1,
                 description = "3131"
-            )
+            ),
+        ),
+        customerDetails = CustomerDetails(
+        email = "solutions@ifortepay.id",
+        fullName = "Testing",
+        phone = "08970799128",
+        ipAddress = "182.30.91.67",
         ),
         billingAddress = BillingAddres(
-            fullName = "CC Test",
-            phone = "0893456789",
-            address = "Kosan Hj Hasan",
-            city = "Tangerang",
-            postalCode = "19127",
-            country = "ID"
+        fullName = "CC Test",
+        phone = "0893456789",
+        address = "Kosan Hj Hasan",
+        city = "Tangerang",
+        postalCode = "19127",
+        country = "ID",
         ),
         shippingAddress = ShippingAddres(
-            fullName = "MCP",
-            phone = "0893456789",
-            address = "Bandara Mas",
-            city = "Malang",
-            postalCode = "10210",
-            country = "ID"
+        fullName = "MCP",
+        phone = "0893456789",
+        address = "Bandara Mas",
+        city = "Malang",
+        postalCode = "10210",
+        country = "ID",
         ),
+        cardDetails = CardDetails(
+        cardNumber = "",
+        cardExpiredMonth = "",
+        cardExpiredYear = "",
+        cardCvn = "",
+        cardHolderName = ""
+        ),
+        returnUrl = "https://superapp-stg.ifortepay.id/",
+        callbackUrl = "https://mcpid.free.beeceptor.com",
         paymentOptions = PaymentOptions(
-            useRewards = true,
-            campaign_code = "002",
-            tenor = "0"
+        useRewards = true,
+        campaign_code = "002",
+        tenor = "0"
         ),
         additionalData = "",
-        source = "payment_page",
-    )
+        )
     val merchantId = "MC2026016183"
     val secretUnbound = "0x85e19e9ff024614509"
     val hashKey = "U07P9kpkmYeUDLiqZZVymciPnr3QdN/tL+XBL3Adkck"

@@ -6,12 +6,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.sdk.payment.ui.PaymentScreen
+import com.sdk.payment.ui.viewmodel.PaymentViewModel
 
 @Composable
 fun PaymentSDKNavHost(
-    startToken: String,
-    startData: String,
-//    onFinished: () -> Unit
+    viewModel: PaymentViewModel,
+    onResult: (Boolean) -> Unit,
 ) {
     val navController = rememberNavController()
 
@@ -21,8 +21,7 @@ fun PaymentSDKNavHost(
     ) {
         composable("payment") {
             PaymentScreen(
-                token = startToken,
-                jsonData = startData,
+              viewModel = viewModel
             )
         }
     }

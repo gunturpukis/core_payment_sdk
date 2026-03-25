@@ -12,8 +12,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             App(
-                PaymentScreenAndroid()
-//                DemoAppScreen()
+//                PaymentScreenAndroid()
+                DemoAppScreen()
             )
         }
     }

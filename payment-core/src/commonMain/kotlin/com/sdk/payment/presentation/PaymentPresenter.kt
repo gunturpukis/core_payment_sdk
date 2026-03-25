@@ -21,8 +21,6 @@ class BasePaymentViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    var onResult: ((Boolean) -> Unit)? = null
-
     fun onCardNumberChange(number: String) {
         val formatted = formatCardNumber(number)
         val clean = number.replace(" ", "")
@@ -139,20 +137,12 @@ class BasePaymentViewModel(
                 state.cvvError == null &&
                 state.cardHolderError == null
     }
-    fun onSuccessDone() {
-        _uiState.update {
-            it.copy(showSuccessDialog = false)
-        }
-        onResult?.invoke(true)
-    }
-
     fun processPayment(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             try {
                 val currentState = _uiState.value
                 val validatedState = validateInput(currentState)
                 _uiState.value = validatedState
-
                 if (!isAllValid(validatedState)) {
                     _uiState.update {
                         it.copy(

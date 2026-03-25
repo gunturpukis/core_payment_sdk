@@ -26,7 +26,9 @@ import com.sdk.payment.domain.model.PaymentDetails
 import com.sdk.payment.domain.model.PaymentOptions
 import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.domain.model.ShippingAddres
+import com.sdk.payment.nfc.NfcManager
 import com.sdk.payment.ui.route.PaymentSDKNavHost
+import com.sdk.payment.ui.viewmodel.PaymentViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import io.ktor.util.*
@@ -38,13 +40,19 @@ import platform.Foundation.dataUsingEncoding
 
 fun MainViewController(
     token: String,
-    json: String
+    json: String,
+    onResult : (Boolean) -> Unit
 ): UIViewController = ComposeUIViewController {
     MaterialTheme {
         Surface {
+            val viewModel = remember {
+                PaymentViewModel(
+                    token = token, jsonData = json, onResultCallback = onResult,
+//                    nfcManager = NfcManager()
+                )
+            }
             PaymentScreen(
-                token = token,
-                jsonData = json
+                viewModel = viewModel
             )
         }
     }

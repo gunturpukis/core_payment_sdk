@@ -38,6 +38,7 @@ import io.ktor.util.decodeBase64String
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import androidx.core.graphics.drawable.toDrawable
+import com.google.android.material.button.MaterialButton
 import com.sdk.payment.ui.component.PaymentSuccessDialog
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.delay
@@ -73,7 +74,7 @@ class PaymentActivity : AppCompatActivity() {
     private fun setupDialogSuccess() {
         val builder = AlertDialog.Builder(this)
         val view = layoutInflater.inflate(R.layout.dialog_success, null)
-        builder.setView(view)
+        builder.setView(view).setCancelable(false)
         val dialog = builder.create()
         dialog.show()
         dialog.window?.apply {
@@ -88,7 +89,7 @@ class PaymentActivity : AppCompatActivity() {
             setDimAmount(0.6f)
         }
 
-         val btn = view.findViewById<Button>(R.id.btnHome)
+        val btn = view.findViewById<MaterialButton>(R.id.btnHome)
             btn.setOnClickListener {
             dialog.dismiss()
             }
@@ -97,7 +98,7 @@ class PaymentActivity : AppCompatActivity() {
     private fun setupDialogFailed() {
         val builder = AlertDialog.Builder(this)
         val view = layoutInflater.inflate(R.layout.dialog_failed, null)
-        builder.setView(view)
+        builder.setView(view).setCancelable(false)
         val dialog = builder.create()
         dialog.show()
         dialog.window?.apply {
@@ -112,7 +113,7 @@ class PaymentActivity : AppCompatActivity() {
             setDimAmount(0.6f)
         }
 
-        val btn = view.findViewById<Button>(R.id.btnBackPay)
+        val btn = view.findViewById<MaterialButton>(R.id.btnBackPay)
             btn.setOnClickListener {
                 dialog.dismiss()
             }

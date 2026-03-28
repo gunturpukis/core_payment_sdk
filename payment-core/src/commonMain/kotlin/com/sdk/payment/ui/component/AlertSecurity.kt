@@ -30,17 +30,19 @@ fun AlertSecurity() {
 
         ){
             Column(
-                Modifier.padding(13.dp)
+                Modifier.padding(top = 13.dp, bottom = 13.dp, start = 25.dp, end = 10.dp)
             ) {
                 Text(
                     textAlign = TextAlign.Center,
                     fontSize = 12.sp,
+                    color = Color.DarkGray,
                     text = "Your card details are securely protected.",
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     textAlign = TextAlign.Start,
                     fontSize = 11.sp,
+                    color = Color.Gray,
                     text = "We collaborate with banks to ensure the security of your card data. We will not access or misuse your card information."
                 )
             }

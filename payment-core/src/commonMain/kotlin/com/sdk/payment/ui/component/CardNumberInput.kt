@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -40,7 +41,13 @@ fun CardNumberInput(
         )
         OutlinedTextField(
             value = state.cardNumber,
-            onValueChange = vm::updateCardNumber,
+            shape = RoundedCornerShape(20.dp),
+            onValueChange = {
+                val filtered = it.filter { char -> char.isDigit() }
+                    .take(16)
+                vm.updateCardNumber(filtered)
+            },
+            maxLines = 1,
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number

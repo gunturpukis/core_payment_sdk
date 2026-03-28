@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +32,9 @@ fun CardHolderInput(
         Spacer(Modifier.height(5.dp))
         OutlinedTextField(
             value = state.cardHolder,
+            shape = RoundedCornerShape(20.dp),
             onValueChange = vm::updateHolder,
+            maxLines = 1,
             modifier = Modifier.fillMaxWidth(),
             isError = isError
         )

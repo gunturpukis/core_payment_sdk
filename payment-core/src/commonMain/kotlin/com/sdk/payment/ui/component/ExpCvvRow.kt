@@ -1,5 +1,6 @@
 package com.sdk.payment.ui.component
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,11 +10,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,8 +47,10 @@ fun ExpiryCvvRow(
             )
             OutlinedTextField(
                 value = state.expiry,
+                shape = RoundedCornerShape(20.dp),
                 onValueChange = vm::onExpiryDateChange,
                 modifier = Modifier.fillMaxWidth(),
+                maxLines = 1,
                 isError = isExpiryError
             )
             if (isExpiryError) {
@@ -80,8 +85,19 @@ fun ExpiryCvvRow(
             }
             OutlinedTextField(
                 value = state.cvv,
-                onValueChange = vm::updateCvv,
+                shape = RoundedCornerShape(20.dp),
+                onValueChange = {
+                    val filtered = it.filter { char -> char.isDigit() }
+                        .take(3)
+                    vm.updateCvv(filtered)
+                },
+                maxLines = 1,
                 modifier = Modifier.fillMaxWidth(),
+//                    .border(
+//                    shape = RoundedCornerShape(20.dp),
+//                    color = Color.Black,
+//                    width = 1.dp
+//                ),
                 isError = isCvvError
             )
             if (isCvvError) {

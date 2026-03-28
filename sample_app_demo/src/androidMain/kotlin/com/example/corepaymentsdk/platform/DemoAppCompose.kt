@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.sdk.payment.domain.model.BillingAddres
 import com.sdk.payment.domain.model.CardDetails
 import com.sdk.payment.domain.model.CustomerDetails
@@ -108,10 +109,12 @@ fun DemoAppScreen(
             Surface(
                 modifier = Modifier.fillMaxSize())
             {
+                val context = LocalContext.current
+                val activity = context as Activity
                 val viewModel = remember {
                 PaymentViewModel(
                     token = credentiialToken, jsonData = jsonString,
-//                    nfcManager = NfcManager(activity = Activity())
+                    nfcManager = NfcManager(activity = activity)
                 )
             }
                 PaymentScreen(

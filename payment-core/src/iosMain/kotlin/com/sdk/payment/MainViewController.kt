@@ -48,7 +48,7 @@ fun MainViewController(
             val viewModel = remember {
                 PaymentViewModel(
                     token = token, jsonData = json, onResultCallback = onResult,
-//                    nfcManager = NfcManager()
+                    nfcManager = NfcManager()
                 )
             }
             PaymentScreen(

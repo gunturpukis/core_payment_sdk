@@ -1,7 +1,9 @@
+source 'https://cdn.cocoapods.org'
 platform :ios, '14.0'
 
 target 'iosApp' do
   use_frameworks!
 
-  pod 'PaymentGatewaySDK', :path => '../payment-core'
+  pod 'PaymentGatewaySDKPod', :path => '../payment-core'
+  pod 'lottie-ios', '4.3.0'
 end

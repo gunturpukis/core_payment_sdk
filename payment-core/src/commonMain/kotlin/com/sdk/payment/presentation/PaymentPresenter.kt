@@ -21,6 +21,10 @@ class BasePaymentViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
+
+
+
+
     fun onCardNumberChange(number: String) {
         val formatted = formatCardNumber(number)
         val clean = number.replace(" ", "")

@@ -14,7 +14,6 @@ group = "com.company.sdk"
 version = "1.0.0"
 
 kotlin {
-
     sourceSets.all {
         languageSettings.optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
     }
@@ -67,20 +66,20 @@ kotlin {
             paymentCoreXCFramework.add(this)
         }
     }
-
     cocoapods {
-        summary = "Payment Core SDK"
+        summary = "Payment Gateway SDK"
         homepage = "https://example.com"
         ios.deploymentTarget = "14.0"
         framework {
             baseName = "PaymentGatewaySDK"
             isStatic = true
         }
-//        pod("lottie-ios", "~> 4.3.0")
+//        pod("lottie-ios") {
+//            version = "4.3.0"
+//        }
         podfile = project.file("../iosApp/Podfile")
-        name = "PaymentCoreSDK"
+        name = "PaymentGatewaySDKPod"
     }
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -104,6 +103,7 @@ kotlin {
                 implementation(libs.androidx.lifecycle.runtimeCompose)
                 implementation("org.jetbrains.compose.material:material-icons-extended:1.6.10")
                 implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10")
+
             }
         }
 
@@ -112,9 +112,15 @@ kotlin {
                 implementation("io.ktor:ktor-client-okhttp:2.3.12")
                 implementation("com.google.android.material:material:1.11.0")
                 implementation("com.airbnb.android:lottie:6.4.0")
-                implementation("com.airbnb.android:lottie-compose:6.4.0")
+//                implementation("com.airbnb.android:lottie-compose:6.4.0")
                 implementation("io.github.aakira:napier:2.6.1")
                 implementation("com.airbnb.android:lottie-compose:6.4.0")
+                implementation("androidx.savedstate:savedstate")
+                implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate")
+
+//                implementation(libs.androidx.lifecycle.viewmodelCompose)
+//                implementation(libs.androidx.lifecycle.runtimeCompose)
+                implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10")
                 implementation(libs.compose.runtime)
                 implementation(libs.compose.foundation)
                 implementation(libs.compose.material3)

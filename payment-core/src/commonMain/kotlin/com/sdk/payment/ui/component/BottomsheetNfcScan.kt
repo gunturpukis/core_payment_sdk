@@ -12,6 +12,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -21,7 +24,9 @@ import androidx.compose.ui.unit.sp
 import com.sdk.payment.Res
 import com.sdk.payment.ic_card
 import com.sdk.payment.ic_tapcard
+import com.sdk.payment.ui.component.lottie.LottieView
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,6 +48,16 @@ fun BottomSheetNfcScan(
                 modifier = Modifier.size(width = 100.dp, height = 100.dp),
                 contentScale = ContentScale.Crop,
             )
+//            LottieView(
+//                path = "files/animasi_card_nfc.json",
+//                modifier = Modifier.size(120.dp),
+//                loading = {
+//                    Text("Loading...")
+//                },
+//                error = {
+//                    Text("Failed to load animation")
+//                }
+//            )
             Spacer(Modifier.height(16.dp))
             Text(
                 "Scan your card",

@@ -33,8 +33,8 @@ fun PaymentScreenAndroid() {
         contentAlignment = Alignment.Center
     ) {
         val paymentRequest = PaymentRequest(
-            externalId = "14rRAb1eiS",
-            orderId = "OKo2H5B8gm",
+            externalId = "1Ktru19Cp7",
+            orderId = "ONxeTcEBE6",
             currency = "IDR",
             paymentMethod = "card",
             paymentChannel = "BRICC",

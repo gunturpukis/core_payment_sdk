@@ -28,13 +28,12 @@ class PaymentViewModel(
     token: String,
     private val jsonData: String,
     private val onResultCallback: ((Boolean) -> Unit)? = null,
-//    private val nfcManager: NfcManager
+    private val nfcManager: NfcManager
 ) : ViewModel() {
     init {
         println("Token: $token")
         println("Json: $jsonData")
     }
-//    var onResult: ((Boolean) -> Unit)? = null
     val credToken = token
     val decodedString = try {
         credToken.decodeBase64String()
@@ -201,78 +200,46 @@ class PaymentViewModel(
         state = state.copy(showErrorDialog = false)
         onResultCallback?.invoke(false)
     }
-//    fun processPayment(coroutineScope: CoroutineScope) {
-//        coroutineScope.launch {
-//            try {
-//                state = state.copy(isLoading = true, errorMessage = null)
-//                val validatedState = validateInput(state)
-//                if (!isAllValid(state)) {
-//                    state = state.copy(errorMessage = "Please fix the errors above")
-//                    return@launch
-//                }
-//                state = state.copy(isLoading = true, errorMessage = null)
-//                val expiryParts = state.expiry.split("/")
-//                val month = expiryParts.getOrNull(0)?.padStart(2,   '0') ?: "00"
-//                val year = "20" + (expiryParts.getOrNull(1) ?: "00")
-//                val paymentRequest = buildPaymentRequest(validatedState, month, year)
-//
-//
-//                println("ISINYA APA INI :${paymentRequest}")
-//                val result = gateway.charge(paymentRequest)
-//                println("Result: $result + Linknya ada atau ga : ${result.data?.link.toString()}")
-//                reset()
-//                if(result.responseCode == "00"){
-//                    state = state.copy(isLoading = false, showSuccessDialog = true, paymentResponse = result)
-//                } else {
-//                    state = state.copy(isLoading = false, showErrorDialog = true, errorMessage = result.responseMessage)
-//                }
-//    //            onResult?.invoke(true)
-//            } catch (e: Exception) {
-//                    state = state.copy(isLoading = false, showErrorDialog = true, errorMessage = e.message)
-//    //            onResult?.invoke(false)
-//            }
-//        }
-//    }
-fun processPayment(coroutineScope: CoroutineScope) {
-    coroutineScope.launch {
-        try {
-            state = state.copy(isLoading = true, errorMessage = null)
-            val validatedState = validateInput(state)
-            if (!isAllValid(validatedState)) {
-                state = validatedState.copy(
-                    isLoading = false,
-                    errorMessage = "Please fix the errors above"
-                )
-                return@launch
-            }
-            val expiryParts = validatedState.expiry.split("/")
-            val month = expiryParts.getOrNull(0)?.padStart(2, '0') ?: "00"
-            val year = "20" + (expiryParts.getOrNull(1) ?: "00")
-            val paymentRequest = buildPaymentRequest(validatedState, month, year)
-            val result = gateway.charge(paymentRequest)
-            println("Result: $result + Linknya ada atau ga : ${result.data?.link.toString()}")
-            if (result.responseCode == "00") {
-                state = state.copy(
-                    isLoading = false,
-                    showSuccessDialog = true,
-                    paymentResponse = result
-                )
-            } else {
+    fun processPayment(coroutineScope: CoroutineScope) {
+        coroutineScope.launch {
+            try {
+                state = state.copy(isLoading = true, errorMessage = null)
+                val validatedState = validateInput(state)
+                if (!isAllValid(validatedState)) {
+                    state = validatedState.copy(
+                        isLoading = false,
+                        errorMessage = "Please fix the errors above"
+                    )
+                    return@launch
+                }
+                val expiryParts = validatedState.expiry.split("/")
+                val month = expiryParts.getOrNull(0)?.padStart(2, '0') ?: "00"
+                val year = "20" + (expiryParts.getOrNull(1) ?: "00")
+                val paymentRequest = buildPaymentRequest(validatedState, month, year)
+                val result = gateway.charge(paymentRequest)
+                println("Result: $result + Linknya ada atau ga : ${result.data?.link.toString()}")
+                if (result.responseCode == "00") {
+                    state = state.copy(
+                        isLoading = false,
+                        showSuccessDialog = true,
+                        paymentResponse = result
+                    )
+                } else {
+                    state = state.copy(
+                        isLoading = false,
+                        showErrorDialog = true,
+                        errorMessage = result.responseMessage
+                    )
+                }
+            } catch (e: Exception) {
                 state = state.copy(
                     isLoading = false,
                     showErrorDialog = true,
-                    errorMessage = result.responseMessage
+                    errorMessage = e.message
                 )
             }
-        } catch (e: Exception) {
-            state = state.copy(
-                isLoading = false,
-                showErrorDialog = true,
-                errorMessage = e.message
-            )
         }
     }
-}
     fun flipCard(showBack: Boolean) {
         state = state.copy(isCardFlipped = showBack)
     }
@@ -282,15 +249,15 @@ fun processPayment(coroutineScope: CoroutineScope) {
     fun showCvvInfo(show: Boolean) {
         state = state.copy(showCvvInfo = show)
     }
-//    fun startNfcScan() {
-//        nfcManager?.startScan()
-//        nfcManager?.setListener { result ->
-//            autofillFromNfc(
-//                result.cardNumber.toString(),
-//                result.expiryDate.toString()
-//            )
-//        }
-//    }
+    fun startNfcScan() {
+        nfcManager?.startScan()
+        nfcManager?.setListener { result ->
+            autofillFromNfc(
+                result.cardNumber.toString(),
+                result.expiryDate.toString()
+            )
+        }
+    }
     fun autofillFromNfc(
         number: String,
         expiry: String

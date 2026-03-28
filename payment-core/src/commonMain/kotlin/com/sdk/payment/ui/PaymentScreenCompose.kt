@@ -8,23 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sdk.payment.PaymentGateway
-import com.sdk.payment.domain.model.BillingAddres
-import com.sdk.payment.domain.model.CardDetails
-import com.sdk.payment.domain.model.CustomerDetails
-import com.sdk.payment.domain.model.ItemDetails
-import com.sdk.payment.domain.model.PaymentDetails
-import com.sdk.payment.domain.model.PaymentOptions
-import com.sdk.payment.domain.model.PaymentRequest
-import com.sdk.payment.domain.model.ShippingAddres
 import com.sdk.payment.nfc.NfcManager
 import com.sdk.payment.nfc.provideNfcManager
-import com.sdk.payment.presentation.BasePaymentViewModel
 import com.sdk.payment.ui.component.AlertSecurity
 import com.sdk.payment.ui.component.BottomSheetNfcScan
 import com.sdk.payment.ui.component.CardHolderInput
@@ -56,7 +44,7 @@ fun PaymentScreen(
             Spacer(Modifier.height(10.dp))
             TapNfcInfo {
                 viewModel.showNfcSheet(true)
-//                viewModel.startNfcScan()
+                viewModel.startNfcScan()
             }
             Spacer(Modifier.height(10.dp))
             CardNumberInput(state, viewModel)

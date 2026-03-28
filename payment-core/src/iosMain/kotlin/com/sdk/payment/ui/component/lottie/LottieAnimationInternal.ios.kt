@@ -3,6 +3,10 @@ package com.sdk.payment.ui.component.lottie
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.UIKitView
+import kotlinx.cinterop.readValue
+import platform.CoreGraphics.CGRectZero
+import platform.Foundation.NSData
+import androidx.compose.ui.viewinterop.UIKitView
 
 @Composable
 actual fun LottieAnimationInternal(
@@ -14,20 +18,19 @@ actual fun LottieAnimationInternal(
 //    UIKitView(
 //        modifier = modifier,
 //        factory = {
-//            val animationView = LottieAnimationView()
+//            val view = LottieAnimationView(frame = CGRectZero.readValue())
 //
-//            val animation = LottieAnimation.fromJson(json, null)
-//            animationView.animation = animation
+//            view.setAnimationFromJson(json, null)
 //
-//            animationView.loopMode =
-//                if (iterations == Int.MAX_VALUE) LottieLoopMode.loop
-//                else LottieLoopMode.playOnce
-//
-//            if (isPlaying) {
-//                animationView.play()
+//            view.loopMode = when {
+//                iterations == Int.MAX_VALUE -> LottieLoopMode.loop
+//                iterations > 1 -> LottieLoopMode.repeat
+//                else -> LottieLoopMode.playOnce
 //            }
 //
-//            animationView
+//            if (isPlaying) view.play()
+//
+//            view
 //        },
 //        update = { view ->
 //            if (isPlaying) view.play() else view.pause()

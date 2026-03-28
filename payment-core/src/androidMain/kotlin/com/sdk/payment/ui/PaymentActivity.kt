@@ -2,6 +2,7 @@
 
 package com.sdk.payment.ui
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -11,6 +12,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -66,15 +68,54 @@ class PaymentActivity : AppCompatActivity() {
         setupBottomSheet()
         setupCvvInfoButton()
 
-//        binding.composeView.setContent {
-//            PaymentSuccessDialog(
-//                isVisible = uiState.showSuccessDialog,
-//                onDone = {
-//                    viewModel.onSuccessDone()
-//                }
-//            )
-//        }
+    }
 
+    private fun setupDialogSuccess() {
+        val builder = AlertDialog.Builder(this)
+        val view = layoutInflater.inflate(R.layout.dialog_success, null)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            val params = attributes
+            params.gravity = Gravity.CENTER
+            val displayMetrics = resources.displayMetrics
+            params.width = (displayMetrics.widthPixels * 0.9).toInt()
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT
+            attributes = params
+            addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            setDimAmount(0.6f)
+        }
+
+         val btn = view.findViewById<Button>(R.id.btnHome)
+            btn.setOnClickListener {
+            dialog.dismiss()
+            }
+    }
+
+    private fun setupDialogFailed() {
+        val builder = AlertDialog.Builder(this)
+        val view = layoutInflater.inflate(R.layout.dialog_failed, null)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            val params = attributes
+            params.gravity = Gravity.CENTER
+            val displayMetrics = resources.displayMetrics
+            params.width = (displayMetrics.widthPixels * 0.9).toInt()
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT
+            attributes = params
+            addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            setDimAmount(0.6f)
+        }
+
+        val btn = view.findViewById<Button>(R.id.btnBackPay)
+            btn.setOnClickListener {
+                dialog.dismiss()
+            }
     }
 
     override fun onPause() {
@@ -153,12 +194,14 @@ class PaymentActivity : AppCompatActivity() {
                 state.errorMessage?.let { errorMsg ->
                     if (errorMsg != "Please fix the errors above") {
                         showErrorToast(errorMsg)
+                        setupDialogFailed()
                     }
                 }
                 if (state.paymentResponse != null) {
                   lifecycleScope.launch {
                         delay(1500)
                         resetPaymentForm()
+                        setupDialogSuccess()
                     }
                 }
             }

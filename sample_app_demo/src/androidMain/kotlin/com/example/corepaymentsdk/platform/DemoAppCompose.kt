@@ -3,15 +3,10 @@ package com.example.corepaymentsdk.platform
 import android.app.Activity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,12 +20,12 @@ import com.sdk.payment.domain.model.PaymentRequest
 import com.sdk.payment.domain.model.ShippingAddres
 import com.sdk.payment.nfc.NfcManager
 import com.sdk.payment.ui.PaymentScreen
-import com.sdk.payment.ui.route.PaymentSDKNavHost
 import com.sdk.payment.ui.viewmodel.PaymentViewModel
 import io.ktor.util.encodeBase64
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+
 @Composable
 fun DemoAppScreen(
 ) {
